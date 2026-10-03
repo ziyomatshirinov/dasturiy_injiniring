@@ -1,1 +1,211 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Vazifa paneli</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="wrap">
 
+    <!-- ===== SARLAVHA ===== -->
+    <header class="topbar">
+      <h1 class="logo">Vazifa paneli</h1>
+      <div class="tools">
+        <div class="seg" role="group" aria-label="Rol">
+          <button type="button" id="roleTeacher" class="on" data-role="teacher">Ustoz</button>
+          <button type="button" id="roleStudent" data-role="student">O‘quvchi</button>
+        </div>
+        <button type="button" class="btn" id="themeBtn">Kunduzgi rejim</button>
+        <button type="button" class="btn" id="exportBtn">Zaxira olish</button>
+        <button type="button" class="btn" id="importBtn">Tiklash</button>
+        <input type="file" id="importFile" accept="application/json" hidden>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- ===================== USTOZ PANELI ===================== -->
+      <section id="teacherView" aria-label="Ustoz paneli">
+
+        <div class="stats" id="teacherStats">
+          <div class="stat"><b id="stTasks">0</b><span>Jami vazifa</span></div>
+          <div class="stat"><b id="stDone">0/0</b><span>Bajarilgan topshiriq</span></div>
+          <div class="stat"><b id="stWait">0</b><span>Baholashni kutmoqda</span></div>
+          <div class="stat"><b id="stAvg">—</b><span>O‘rtacha baho</span></div>
+        </div>
+
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab on" role="tab" data-tab="tasks">Vazifalar</button>
+          <button type="button" class="tab" role="tab" data-tab="students">O‘quvchilar</button>
+        </div>
+
+        <!-- Vazifalar bo'limi -->
+        <div id="tabTasks">
+          <details class="card" id="newTask">
+            <summary>+ Yangi vazifa berish</summary>
+            <div class="form">
+              <label for="taskTitle">Vazifa nomi</label>
+              <input type="text" id="taskTitle" maxlength="80" placeholder="Masalan: Matn tahlili">
+
+              <label for="taskDesc">Tavsif</label>
+              <textarea id="taskDesc" rows="3" placeholder="Vazifa haqida batafsil yozing"></textarea>
+
+              <label for="taskDue">Topshirish muddati</label>
+              <input type="date" id="taskDue">
+
+              <fieldset class="assign">
+                <legend>Kimlarga beriladi</legend>
+                <div class="checks" id="assignList"></div>
+              </fieldset>
+
+              <div><button type="button" class="btn pri" id="addTaskBtn">Vazifani yuborish</button></div>
+            </div>
+          </details>
+
+          <div class="filters">
+            <label for="searchTask" class="sr">Qidirish</label>
+            <input type="search" id="searchTask" placeholder="Vazifalardan qidirish">
+          </div>
+
+          <div id="taskList"></div>
+        </div>
+
+        <!-- O'quvchilar bo'limi -->
+        <div id="tabStudents" hidden>
+          <div class="card">
+            <h2>O‘quvchi qo‘shish</h2>
+            <div class="inline">
+              <label for="studentName" class="sr">Ism va familiya</label>
+              <input type="text" id="studentName" maxlength="60" placeholder="Ism va familiya">
+              <button type="button" class="btn pri" id="addStudentBtn">Qo‘shish</button>
+            </div>
+          </div>
+          <div id="studentList"></div>
+        </div>
+      </section>
+
+      <!-- ===================== O'QUVCHI PANELI ===================== -->
+      <section id="studentView" aria-label="O‘quvchi paneli" hidden>
+
+        <div class="filters">
+          <label for="whoSelect" class="sr">O‘quvchini tanlang</label>
+          <select id="whoSelect"></select>
+        </div>
+
+        <div class="stats" id="studentStats">
+          <div class="stat"><b id="myTotal">0</b><span>Mening vazifalarim</span></div>
+          <div class="stat"><b id="myDone">0</b><span>Bajarilgan</span></div>
+          <div class="stat"><b id="myTodo">0</b><span id="myTodoLabel">Bajarilmagan</span></div>
+          <div class="stat"><b id="myAvg">—</b><span>O‘rtacha baho</span></div>
+        </div>
+
+        <div class="tabs" id="myFilters">
+          <button type="button" class="tab on" data-filter="all">Hammasi</button>
+          <button type="button" class="tab" data-filter="todo">Bajarilmagan</button>
+          <button type="button" class="tab" data-filter="done">Bajarilgan</button>
+        </div>
+
+        <div id="myTasks"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <!-- ================= SHABLONLAR (JS shularni nusxalab ishlatadi) ================= -->
+
+  <!-- Ustoz: vazifa kartasi -->
+  <template id="tplTask">
+    <article class="card task">
+      <div class="row">
+        <div>
+          <h3 class="t-title"></h3>
+          <p class="mute t-desc"></p>
+        </div>
+        <button type="button" class="btn sm del t-del">O‘chirish</button>
+      </div>
+      <div class="meta">
+        <span class="chip t-due"></span>
+        <span class="mute t-count"></span>
+      </div>
+      <div class="bar"><i class="t-bar"></i></div>
+      <details>
+        <summary>O‘quvchilar holati va baholash</summary>
+        <div class="t-students"></div>
+      </details>
+    </article>
+  </template>
+
+  <!-- Ustoz: vazifa ichidagi bitta o'quvchi qatori -->
+  <template id="tplStuRow">
+    <div class="srow">
+      <div class="top">
+        <b class="s-name"></b>
+        <span>
+          <span class="chip s-status"></span>
+          <span class="chip s-grade" hidden></span>
+        </span>
+      </div>
+      <div class="ans s-answer" hidden></div>
+      <div class="g">
+        <input type="number" class="gv" min="0" max="100" placeholder="Baho" aria-label="Baho">
+        <input type="text" class="gc" placeholder="Ustoz izohi" aria-label="Izoh">
+        <button type="button" class="btn pri sm s-save">Baholash</button>
+      </div>
+    </div>
+  </template>
+
+  <!-- Ustoz: o'quvchilar ro'yxatidagi karta -->
+  <template id="tplStudent">
+    <div class="card row center">
+      <div>
+        <h3 class="p-name"></h3>
+        <span class="mute p-info"></span>
+      </div>
+      <button type="button" class="btn sm del p-del">O‘chirish</button>
+    </div>
+  </template>
+
+  <!-- O'quvchi: vazifa kartasi -->
+  <template id="tplMyTask">
+    <article class="card task">
+      <div class="row">
+        <div>
+          <h3 class="m-title"></h3>
+          <p class="mute m-desc"></p>
+        </div>
+        <span class="chip m-status"></span>
+      </div>
+      <div class="meta">
+        <span class="chip m-due"></span>
+        <span class="mute m-at"></span>
+      </div>
+      <div class="ans m-answer" hidden></div>
+
+      <div class="m-form">
+        <label class="sr">Javobingiz</label>
+        <textarea class="m-text" rows="2" placeholder="Javobingiz yoki izoh (ixtiyoriy)"></textarea>
+        <div><button type="button" class="btn pri m-done">Bajardim</button></div>
+      </div>
+      <button type="button" class="btn sm m-undo" hidden>Bekor qilish</button>
+
+      <div class="grade m-grade" hidden>
+        Ustoz bahosi: <b class="m-score"></b>
+        <div class="m-comment"></div>
+      </div>
+    </article>
+  </template>
+
+  <!-- Bo'sh holat -->
+  <template id="tplEmpty">
+    <div class="empty"></div>
+  </template>
+
+  <script src="index.js"></script>
+</body>
+</html>
