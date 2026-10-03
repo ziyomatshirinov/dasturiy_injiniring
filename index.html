@@ -1,1 +1,130 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1200">
+<title>Reja — vazifalar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app" id="app">
 
+  <aside class="sidebar" aria-label="Asosiy menyu">
+    <div class="brand">
+      <span class="brand-mark" data-icon="check"></span>
+      <span class="brand-name">Reja</span>
+      <button type="button" class="icon-btn" id="themeBtn" aria-label="Yorugʻ yoki qorongʻi mavzu" title="Mavzuni almashtirish"></button>
+    </div>
+
+    <label class="search">
+      <span data-icon="search"></span>
+      <span class="sr-only">Qidirish</span>
+      <input type="search" id="search" placeholder="Qidirish" autocomplete="off">
+      <kbd>/</kbd>
+    </label>
+
+    <nav class="side-group" aria-label="Koʻrinishlar">
+      <button type="button" class="nav-item" data-view="today"><span data-icon="sun"></span><span class="nav-label">Bugun</span><span class="count" data-count-view="today"></span></button>
+      <button type="button" class="nav-item" data-view="upcoming"><span data-icon="calendar"></span><span class="nav-label">Rejalashtirilgan</span><span class="count" data-count-view="upcoming"></span></button>
+      <button type="button" class="nav-item" data-view="nodate"><span data-icon="inbox"></span><span class="nav-label">Muddatsiz</span><span class="count" data-count-view="nodate"></span></button>
+      <button type="button" class="nav-item" data-view="all"><span data-icon="list"></span><span class="nav-label">Barcha faol</span><span class="count" data-count-view="all"></span></button>
+      <button type="button" class="nav-item" data-view="done"><span data-icon="checkCircle"></span><span class="nav-label">Bajarilgan</span><span class="count" data-count-view="done"></span></button>
+    </nav>
+
+    <div class="side-group">
+      <h2 class="side-title">Kun vaqti</h2>
+      <button type="button" class="nav-item filter time-morning" data-filter-time="morning" aria-pressed="false"><span class="filter-ic" data-icon="sunrise"></span><span class="nav-label">Ertalabki</span><span class="count" data-count-time="morning"></span></button>
+      <button type="button" class="nav-item filter time-evening" data-filter-time="evening" aria-pressed="false"><span class="filter-ic" data-icon="moon"></span><span class="nav-label">Kechki</span><span class="count" data-count-time="evening"></span></button>
+      <button type="button" class="nav-item filter time-none" data-filter-time="none" aria-pressed="false"><span class="filter-ic" data-icon="dashed"></span><span class="nav-label">Teglanmagan</span><span class="count" data-count-time="none"></span></button>
+    </div>
+
+    <div class="side-group">
+      <h2 class="side-title">Turi</h2>
+      <button type="button" class="nav-item filter kind-required" data-filter-kind="required" aria-pressed="false"><span class="filter-ic" data-icon="flag"></span><span class="nav-label">Majburiy</span><span class="count" data-count-kind="required"></span></button>
+      <button type="button" class="nav-item filter kind-optional" data-filter-kind="optional" aria-pressed="false"><span class="filter-ic" data-icon="feather"></span><span class="nav-label">Ixtiyoriy</span><span class="count" data-count-kind="optional"></span></button>
+      <button type="button" class="nav-item filter kind-none" data-filter-kind="none" aria-pressed="false"><span class="filter-ic" data-icon="dashed"></span><span class="nav-label">Teglanmagan</span><span class="count" data-count-kind="none"></span></button>
+    </div>
+
+    <div class="side-foot">
+      <p class="storage-note"><span data-icon="lock"></span><span>Login kerak emas. Maʼlumotlar faqat shu kompyuterda, brauzer xotirasida saqlanadi.</span></p>
+      <div class="foot-actions">
+        <button type="button" class="btn-ghost sm" id="exportBtn" title="Zaxira nusxani JSON faylga yuklab olish"><span data-icon="download"></span>Eksport</button>
+        <button type="button" class="btn-ghost sm" id="importBtn" title="JSON fayldan tiklash"><span data-icon="upload"></span>Import</button>
+      </div>
+      <p class="shortcuts"><kbd>N</kbd> yangi <kbd>/</kbd> qidiruv <kbd>1–5</kbd> boʻlimlar <kbd>Esc</kbd> yopish</p>
+    </div>
+  </aside>
+
+  <main class="main" id="main">
+    <div class="main-inner">
+      <header class="main-head">
+        <div>
+          <p class="head-date" id="headDate"></p>
+          <h1 id="viewTitle">Bugun</h1>
+        </div>
+        <div class="head-tools">
+          <button type="button" class="btn-ghost" id="clearDoneBtn" hidden><span data-icon="trash"></span>Bajarilganlarni tozalash</button>
+          <label class="sort"><span>Tartib</span>
+            <select id="sortSelect">
+              <option value="manual">Qoʻlda (sudrab)</option>
+              <option value="required">Majburiylar birinchi</option>
+              <option value="date">Sana boʻyicha</option>
+            </select>
+          </label>
+        </div>
+      </header>
+
+      <section class="stats" id="stats" aria-label="Bugungi natija"></section>
+      <p class="success" id="statsMsg" hidden></p>
+
+      <form class="add" id="addForm" autocomplete="off">
+        <div class="add-row">
+          <span class="add-plus" data-icon="plus"></span>
+          <label for="addInput" class="sr-only">Yangi vazifa</label>
+          <input id="addInput" type="text" placeholder="Yangi vazifa… masalan: ertaga kitob oʻqish #kechki #ixtiyoriy">
+          <button type="submit" class="btn-primary">Qoʻshish</button>
+        </div>
+        <div class="add-options">
+          <div class="seg" id="addTime" role="group" aria-label="Kun vaqti">
+            <span class="seg-label">Kun vaqti</span>
+            <button type="button" data-value="morning" aria-pressed="false"><span data-icon="sunrise"></span>Ertalab</button>
+            <button type="button" data-value="evening" aria-pressed="false"><span data-icon="moon"></span>Kechqurun</button>
+            <button type="button" data-value="none" aria-pressed="true">Teglanmagan</button>
+          </div>
+          <div class="seg" id="addKind" role="group" aria-label="Turi">
+            <span class="seg-label">Turi</span>
+            <button type="button" data-value="required" aria-pressed="false"><span data-icon="flag"></span>Majburiy</button>
+            <button type="button" data-value="optional" aria-pressed="false"><span data-icon="feather"></span>Ixtiyoriy</button>
+            <button type="button" data-value="none" aria-pressed="true">Teglanmagan</button>
+          </div>
+          <label class="add-date" id="addDateWrap"><span data-icon="calendar"></span><span class="sr-only">Sana</span><input type="date" id="addDate"></label>
+          <span class="chip chip-repeat" id="addRepeat" hidden></span>
+        </div>
+      </form>
+
+      <div class="banner" id="overdueBanner" hidden>
+        <span class="banner-text"><span data-icon="alert"></span><span id="overdueText"></span></span>
+        <button type="button" class="btn-ghost sm" id="rescheduleBtn">Hammasini bugunga koʻchirish</button>
+      </div>
+
+      <div class="filters" id="activeFilters" hidden></div>
+
+      <div class="list" id="list"></div>
+    </div>
+  </main>
+
+  <aside class="detail" id="detail" aria-label="Vazifa tafsilotlari" hidden></aside>
+</div>
+
+<div class="toast" id="toast" role="status" hidden>
+  <span id="toastText"></span>
+  <button type="button" id="toastUndo">Bekor qilish</button>
+</div>
+
+<input type="file" id="importFile" accept="application/json,.json" hidden>
+<script src="app.js"></script>
+</body>
+</html>
