@@ -1,0 +1,479 @@
+const newTask = {
+      id: 'task-' + Date.now() + '-' + Math.random().toString(36).substring(2, 7),
+      text: cleanText,
+      section: section  'morning',
+      category: category  'mandatory',
+      completed: false,
+      createdAt: Date.now()
+    };
+
+    tasks.unshift(newTask);
+    saveTasks();
+    renderBoard();
+  }
+
+  function deleteTask(id) {
+    const cardEl = document.querySelector([data-task-id="${id}"]);
+    if (cardEl) {
+      cardEl.style.transition = 'all 0.2s ease';
+      cardEl.style.opacity = '0';
+      cardEl.style.transform = 'scale(0.9)';
+      setTimeout(() => {
+        tasks = tasks.filter((t) => t.id !== id);
+        saveTasks();
+        renderBoard();
+      }, 180);
+    } else {
+      tasks = tasks.filter((t) => t.id !== id);
+      saveTasks();
+      renderBoard();
+    }
+  }
+
+  function toggleTaskCompletion(id) {
+    const task = tasks.find((t) => t.id === id);
+    if (!task) return;
+    task.completed = !task.completed;
+    saveTasks();
+    renderBoard();
+  }
+
+  // Move task category between "mandatory" and "optional"
+  function toggleTaskCategory(id) {
+    const task = tasks.find((t) => t.id === id);
+    if (!task) return;
+    task.category = task.category === 'mandatory' ? 'optional' : 'mandatory';
+    saveTasks();
+    renderBoard();
+  }
+
+  // Switch task section between "morning" and "night"
+  function toggleTaskSection(id) {
+    const task = tasks.find((t) => t.id === id);
+    if (!task) return;
+    task.section = task.section === 'morning' ? 'night' : 'morning';
+    saveTasks();
+    renderBoard();
+  }
+
+  // Move task to arbitrary target section and category (used by Drag-and-Drop)
+  function moveTask(id, targetSection, targetCategory) {
+    const task = tasks.find((t) => t.id === id);
+    if (!task) return;
+    if (task.section === targetSection && task.category === targetCategory) return;
+
+    task.section = targetSection;
+    task.category = targetCategory;
+    saveTasks();
+    renderBoard();
+  }
+
+  function clearAllCompleted() {
+    const completedTasks = tasks.filter((t) => t.completed);
+    if (completedTasks.length === 0) return;
+
+    const dict = I18N[currentLanguage]  I18N.en;
+    if (window.confirm(dict.confirmClearCompleted)) {
+      tasks = tasks.filter((t) => !t.completed);
+      saveTasks();
+      renderBoard();
+    }
+  }
+
+  // Helper to escape HTML characters safely
+  function escapeHTML(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  // ================= UI RENDERING =================
+  function renderBoard() {
+    const dict = I18N[currentLanguage]  I18N.en;
+
+    // Clear all 4 dropzones
+    Object.values(dropzones).forEach((zone) => {
+      if (zone) zone.innerHTML = '';
+    });
+
+    // Counts tracking
+    const counts = {
+      'morning-mandatory': 0,
+      'morning-optional': 0,
+      'night-mandatory': 0,
+      'night-optional': 0
+    };
+
+    let totalCompleted = 0;
+
+    // Populate task cards
+    tasks.forEach((task) => {
+      if (task.completed) totalCompleted++;
+
+      const zoneKey = ${task.section}-${task.category};
+      if (counts[zoneKey] !== undefined) {
+        counts[zoneKey]++;
+      }
+
+      const targetZone = dropzones[zoneKey];
+      if (targetZone) {
+        const card = createTaskCardElement(task, dict);
+        targetZone.appendChild(card);
+      }
+    });
+
+    // Render Empty States if a column has 0 tasks
+    Object.keys(dropzones).forEach((zoneKey) => {
+      const zone = dropzones[zoneKey];
+      if (zone && counts[zoneKey] === 0) {
+        const isMandatory = zoneKey.endsWith('mandatory');
+        const emptyMsg = isMandatory ? dict.emptyMandatory : dict.emptyOptional; /**
+ * DUDU — Productivity Planner for Team A1
+ * Pure Vanilla JavaScript Application
+ * Features:
+ *  - Multilingual support (English / Uzbek)
+ *  - Dynamic Task Management (CRUD)
+ *  - Drag-and-Drop & One-Click Task Moving between Mandatory & Optional
+ *  - Completion tracking with reactive counters
+ *  - LocalStorage persistence for tasks and language
+ */
+
+(function () {
+  'use strict';
+
+  // ================= STORAGE KEYS =================
+  const STORAGE_KEY_TASKS = 'dudu_tasks_a1';
+  const STORAGE_KEY_LANG = 'dudu_lang_a1';
+
+  // ================= I18N DICTIONARY =================
+  const I18N = {
+    en: {
+      teamBadge: 'TEAM A1',
+      subtitle: 'Morning & Night Structured Productivity',
+      completed: 'completed',
+      addTaskPlaceholder: 'What needs to be done?...',
+      addTaskBtn: 'Add Task',
+      morning: 'Morning',
+      night: 'Night',
+      mandatory: 'Mandatory',
+      optional: 'Optional',
+      morningDesc: 'Kickstart your day with focus and high priority habits',
+      nightDesc: 'Wrap up the day, reflect, and prepare for tomorrow',
+      emptyMandatory: 'No mandatory tasks yet. Stay focused!',
+      emptyOptional: 'No optional tasks yet. Add extra goals if you have time!',
+      moveToMandatory: '⇄ Mandatory',
+      moveToOptional: '⇄ Optional',
+      moveToNight: '🌙 Night',
+      moveToMorning: '☀️ Morning',
+      deleteTask: 'Delete',
+      clearCompletedText: 'Clear Completed',
+      confirmClearCompleted: 'Are you sure you want to clear all completed tasks?',
+      quickAddTitle: 'Quick Add to this category'
+    },
+    uz: {
+      teamBadge: 'A1 JAMOASI',
+      subtitle: 'Ertalab va Kechqurun uchun unumdor rejalashtiruvchi',
+      completed: 'bajarildi',
+      addTaskPlaceholder: 'Qanday vazifa bajarilishi kerak?...',
+      addTaskBtn: 'Vazifa qo‘shish',
+      morning: 'Ertalab',
+      night: 'Kechqurun',
+      mandatory: 'Majburiy',
+      optional: 'Ixtiyoriy',
+      morningDesc: 'Kuningizni muhim vazifalar va diqqat bilan boshlang',
+      nightDesc: 'Kuningizni yakunlang, sarhisob qiling va ertaga tayyorlaning',
+      emptyMandatory: 'Hozircha majburiy vazifalar yo‘q. Rejalashtiring!',
+      emptyOptional: 'Ixtiyoriy vazifalar yo‘q. Bo‘sh vaqt uchun qo‘shing!',
+      moveToMandatory: '⇄ Majburiyga',
+      moveToOptional: '⇄ Ixtiyoriyga',
+      moveToNight: '🌙 Kechqurunga',
+      moveToMorning: '☀️ Ertalabga',
+      deleteTask: 'O‘chirish',
+      clearCompletedText: 'Bajarilganlarni tozalash',
+      confirmClearCompleted: 'Haqiqatan ham barcha bajarilgan vazifalarni tozalashni xohlaysizmi?',
+      quickAddTitle: 'Ushbu bo‘limga tezkor qo‘shish'
+    }
+  };
+
+  // Default seed tasks for first-time visitors
+  const DEFAULT_TASKS = [
+    {
+      id: 'task-init-1',
+      text: 'Drink 500ml water & review day objectives',
+      section: 'morning',
+      category: 'mandatory',
+      completed: true,
+      createdAt: 1
+    },
+    {
+      id: 'task-init-2',
+      text: 'Listen to 15m tech / self-growth podcast',
+      section: 'morning',
+      category: 'optional',
+      completed: false,
+      createdAt: 2
+    },
+    {
+      id: 'task-init-3',
+      text: 'Review daily code commits & push project changes',
+      section: 'night',
+      category: 'mandatory',
+      completed: false,
+      createdAt: 3
+    },
+    {
+      id: 'task-init-4',
+      text: 'Read 15 pages of system architecture book',
+      section: 'night',
+      category: 'optional',
+      completed: false,
+      createdAt: 4
+    }
+  ]; // ================= APPLICATION STATE =================
+  let currentLanguage = localStorage.getItem(STORAGE_KEY_LANG)  'en';
+  let tasks = [];
+
+  try {
+    const rawTasks = localStorage.getItem(STORAGE_KEY_TASKS);
+    tasks = rawTasks ? JSON.parse(rawTasks) : DEFAULT_TASKS;
+    if (!Array.isArray(tasks)) tasks = DEFAULT_TASKS;
+  } catch (err) {
+    console.error('Failed to parse saved tasks:', err);
+    tasks = DEFAULT_TASKS;
+  }
+
+  // ================= DOM ELEMENT REFERENCES =================
+  const taskForm = document.getElementById('global-task-form');
+  const taskInput = document.getElementById('task-input');
+  const sectionSelect = document.getElementById('section-select');
+  const categorySelect = document.getElementById('category-select');
+  const langEnBtn = document.getElementById('lang-en');
+  const langUzBtn = document.getElementById('lang-uz');
+  const completedCountEl = document.getElementById('completed-count');
+  const totalCountEl = document.getElementById('total-count');
+  const progressBarFillEl = document.getElementById('progress-bar-fill');
+  const clearCompletedBtn = document.getElementById('clear-completed-btn');
+
+  // Containers for the 4 distinct areas
+  const dropzones = {
+    'morning-mandatory': document.getElementById('list-morning-mandatory'),
+    'morning-optional': document.getElementById('list-morning-optional'),
+    'night-mandatory': document.getElementById('list-night-mandatory'),
+    'night-optional': document.getElementById('list-night-optional')
+  };
+
+  // Counter badges
+  const counterElements = {
+    'morning-mandatory': document.getElementById('count-morning-mandatory'),
+    'morning-optional': document.getElementById('count-morning-optional'),
+    'night-mandatory': document.getElementById('count-night-mandatory'),
+    'night-optional': document.getElementById('count-night-optional'),
+    'morning-total': document.getElementById('morning-total-chip'),
+    'night-total': document.getElementById('night-total-chip')
+  };
+
+  // ================= STORAGE HELPERS =================
+  function saveTasks() {
+    try {
+      localStorage.setItem(STORAGE_KEY_TASKS, JSON.stringify(tasks));
+    } catch (e) {
+      console.error('Failed to save tasks to localStorage:', e);
+    }
+  }
+
+  function saveLanguage(lang) {
+    currentLanguage = lang;
+    try {
+      localStorage.setItem(STORAGE_KEY_LANG, lang);
+    } catch (e) {
+      console.error('Failed to save language to localStorage:', e);
+    }
+  }
+
+  // ================= I18N RENDERER =================
+  function applyLanguage(lang) {
+    saveLanguage(lang);
+
+    // Update active class on buttons
+    if (lang === 'uz') {
+      langUzBtn.classList.add('active');
+      langEnBtn.classList.remove('active');
+      document.documentElement.lang = 'uz';
+    } else {
+      langEnBtn.classList.add('active');
+      langUzBtn.classList.remove('active');
+      document.documentElement.lang = 'en';
+    }
+
+    const dict = I18N[lang]  I18N.en;
+
+    // Update data-i18n text
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key]) {
+        el.textContent = dict[key];
+      }
+    });
+
+    // Update placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (dict[key]) {
+        el.setAttribute('placeholder', dict[key]);
+      }
+    });
+
+    // Update select dropdown labels
+    Array.from(sectionSelect.options).forEach((opt) => {
+      const key = opt.getAttribute('data-i18n');
+      if (dict[key]) opt.textContent = dict[key];
+    });
+
+    Array.from(categorySelect.options).forEach((opt) => {
+      const key = opt.getAttribute('data-i18n');
+      if (dict[key]) opt.textContent = dict[key];
+    });
+
+    // Re-render task board so cards and empty states display translated buttons
+    renderBoard();
+  }
+
+  // ================= TASK MANAGEMENT (CRUD & MOVES) =================
+  function addTask(text, section, category) {
+    const cleanText = text.trim();
+    if (!cleanText) return; const newTask = {
+      id: 'task-' + Date.now() + '-' + Math.random().toString(36).substring(2, 7),
+      text: cleanText,
+      section: section  'morning',
+      category: category  'mandatory',
+      completed: false,
+      createdAt: Date.now()
+    };
+
+    tasks.unshift(newTask);
+    saveTasks();
+    renderBoard();
+  }
+
+  function deleteTask(id) {
+    const cardEl = document.querySelector([data-task-id="${id}"]);
+    if (cardEl) {
+      cardEl.style.transition = 'all 0.2s ease';
+      cardEl.style.opacity = '0';
+      cardEl.style.transform = 'scale(0.9)';
+      setTimeout(() => {
+        tasks = tasks.filter((t) => t.id !== id);
+        saveTasks();
+        renderBoard();
+      }, 180);
+    } else {
+      tasks = tasks.filter((t) => t.id !== id);
+      saveTasks();
+      renderBoard();
+    }
+  }
+
+  function toggleTaskCompletion(id) {
+    const task = tasks.find((t) => t.id === id);
+    if (!task) return;
+    task.completed = !task.completed;
+    saveTasks();
+    renderBoard();
+  }
+
+  // Move task category between "mandatory" and "optional"
+  function toggleTaskCategory(id) {
+    const task = tasks.find((t) => t.id === id);
+    if (!task) return;
+    task.category = task.category === 'mandatory' ? 'optional' : 'mandatory';
+    saveTasks();
+    renderBoard();
+  }
+
+  // Switch task section between "morning" and "night"
+  function toggleTaskSection(id) {
+    const task = tasks.find((t) => t.id === id);
+    if (!task) return;
+    task.section = task.section === 'morning' ? 'night' : 'morning';
+    saveTasks();
+    renderBoard();
+  }
+
+  // Move task to arbitrary target section and category (used by Drag-and-Drop)
+  function moveTask(id, targetSection, targetCategory) {
+    const task = tasks.find((t) => t.id === id);
+    if (!task) return;
+    if (task.section === targetSection && task.category === targetCategory) return;
+
+    task.section = targetSection;
+    task.category = targetCategory;
+    saveTasks();
+    renderBoard();
+  }
+
+  function clearAllCompleted() {
+    const completedTasks = tasks.filter((t) => t.completed);
+    if (completedTasks.length === 0) return;
+
+    const dict = I18N[currentLanguage]  I18N.en;
+    if (window.confirm(dict.confirmClearCompleted)) {
+      tasks = tasks.filter((t) => !t.completed);
+      saveTasks();
+      renderBoard();
+    }
+  }
+
+  // Helper to escape HTML characters safely
+  function escapeHTML(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  // ================= UI RENDERING =================
+  function renderBoard() {
+    const dict = I18N[currentLanguage]  I18N.en;
+
+    // Clear all 4 dropzones
+    Object.values(dropzones).forEach((zone) => {
+      if (zone) zone.innerHTML = '';
+    });
+
+    // Counts tracking
+    const counts = {
+      'morning-mandatory': 0,
+      'morning-optional': 0,
+      'night-mandatory': 0,
+      'night-optional': 0
+    };
+
+    let totalCompleted = 0;
+
+    // Populate task cards
+    tasks.forEach((task) => {
+      if (task.completed) totalCompleted++;
+
+      const zoneKey = ${task.section}-${task.category};
+      if (counts[zoneKey] !== undefined) {
+        counts[zoneKey]++;
+      }
+
+      const targetZone = dropzones[zoneKey];
+      if (targetZone) {
+        const card = createTaskCardElement(task, dict);
+        targetZone.appendChild(card);
+      }
+    });
+
+    // Render Empty States if a column has 0 tasks
+    Object.keys(dropzones).forEach((zoneKey) => {
+      const zone = dropzones[zoneKey];
+      if (zone && counts[zoneKey] === 0) {
+        const isMandatory = zoneKey.endsWith('mandatory');
+        const emptyMsg = isMandatory ? dict.emptyMandatory : dict.emptyOptional;
