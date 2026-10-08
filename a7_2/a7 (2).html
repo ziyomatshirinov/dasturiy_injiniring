@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aesthetic Pink To-Do Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="a7.css">
+</head>
+<body class="min-h-screen py-6 px-4 sm:px-6 flex flex-col items-center">
+
+    <header class="no-print w-full max-w-4xl mb-6 flex flex-wrap justify-between items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-pink-100">
+        <div class="flex items-center space-x-2">
+            <i class="fa-solid fa-heart text-pink-400 text-xl"></i>
+            <h1 class="text-gray-700 font-semibold text-lg">Aesthetic To-Do Planner</h1>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+            <button id="addSectionBtn" class="px-3 py-1.5 text-xs sm:text-sm bg-pink-50 hover:bg-pink-100 text-pink-700 rounded-lg transition border border-pink-200 flex items-center gap-1.5 font-medium">
+                <i class="fa-solid fa-plus"></i> Add Block
+            </button>
+            <button id="resetBtn" class="px-3 py-1.5 text-xs sm:text-sm bg-gray-50 hover:bg-red-50 text-gray-600 hover:text-red-600 rounded-lg transition border border-gray-200 flex items-center gap-1.5 font-medium">
+                <i class="fa-solid fa-rotate-left"></i> Reset
+            </button>
+        </div>
+    </header>
+
+    <main class="planner-card w-full max-w-3xl bg-white p-6 sm:p-10 rounded-2xl shadow-xl border border-pink-100 min-h-[900px] flex flex-col">
+        
+        <div class="text-center my-4 sm:my-6">
+            <div class="brush-bg px-8 py-2">
+                <h1 id="plannerTitle" contenteditable="true" class="font-script text-5xl sm:text-6xl text-gray-800 relative z-10 focus:outline-none tracking-wide select-none">
+                    to-do
+                </h1>
+            </div>
+            <p class="no-print text-xs text-pink-400 mt-2 font-light">Click title or header boxes to edit text</p>
+        </div>
+
+        <!-- 2x2 Grid Layout for To-Do Blocks -->
+        <div id="gridContainer" class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8 mt-6 flex-grow">
+            <!-- Sections populated dynamically by JavaScript -->
+        </div>
+
+        <!-- Printable Footer -->
+        <footer class="mt-8 pt-4 border-t border-pink-50 text-center text-xs text-pink-300">
+
+            <details class="inline-block">
+                <summary class="cursor-pointer hover:text-pink-400 transition list-none">
+                    ♡ Daily Focus Planner
+                </summary>
+
+                <div class="mt-2 text-gray-400 leading-5">
+                    <div>HTML: Maqsudova Moxinur</div>
+                    <div>CSS: Latipova Zahro</div>
+                    <div>JS: Tursunov Shavkat</div>
+                </div>
+            </details>
+
+        </footer>
+    </main>
+<script src="a7.js"></script>
+</body>
+</html>

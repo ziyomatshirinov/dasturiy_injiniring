@@ -1,0 +1,116 @@
+
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6;
+}
+
+.font-script {
+    font-family: 'Dancing Script', cursive;
+}
+
+.font-handwriting {
+    font-family: 'Caveat', cursive;
+    font-size: 1.25rem;
+}
+
+/* Watercolor brush stroke effect for main title */
+.brush-bg {
+    position: relative;
+    display: inline-block;
+}
+
+.brush-bg::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-1deg);
+    width: 120%;
+    height: 85%;
+    background: linear-gradient(135deg, #fbcfe8 0%, #f472b6 50%, #fbcfe8 100%);
+    opacity: 0.65;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    filter: blur(3px);
+    z-index: 0;
+    transition: all 0.3s ease;
+}
+
+/* Custom underline notepad inputs */
+.line-input {
+    border: none;
+    border-bottom: 1.5px solid #d1d5db;
+    background: transparent;
+    transition: border-color 0.2s ease;
+}
+
+.line-input:focus {
+    outline: none;
+    border-bottom-color: #f472b6;
+}
+
+.completed-task {
+    text-decoration: line-through;
+    color: #9ca3af;
+}
+
+/* Custom Checkbox Design */
+.custom-checkbox {
+    appearance: none;
+    width: 1.15rem;
+    height: 1.15rem;
+    border: 1.5px solid #4b5563;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    background-color: #fff;
+    transition: all 0.2s ease;
+}
+
+.custom-checkbox:checked {
+    background-color: #f472b6;
+    border-color: #f472b6;
+}
+
+.custom-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: bold;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Print Specific Styling */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    body {
+        background: white !important;
+        padding: 0 !important;
+    }
+    .planner-card {
+        box-shadow: none !important;
+        border: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+    }
+    .line-input {
+        border-bottom: 1.5px solid #9ca3af !important;
+    }
+    .brush-bg::before {
+        opacity: 0.4 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .bg-pink-header {
+        background-color: #fbcfe8 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
