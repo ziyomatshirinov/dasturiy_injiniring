@@ -1,0 +1,431 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-color: #F3F4F7;
+    --card-bg: #FFFFFF;
+    --border-color: #E7EFEF;
+    --row-border: #EEF0F3;
+    --btn-border: #D1D5DB;
+    --hover-bg: #F6F7F9;
+    --code-nav-hover: #EBEAF0;
+    --text-main: #161029;
+    --text-secondary: #566375;
+    --placeholder: #6F7486;
+    
+    --indigo: #4338CA;
+    --indigo-hover: #3730A3;
+    --indigo-active: #312E81;
+    --indigo-light: #EEF2FF;
+
+    --morning-bg: #FFF3DC;
+    --morning-text: #744400;
+    
+    --evening-bg: #EEEDFB;
+    --evening-text: #3E3499;
+
+    --status-running: #9A5B00;
+    --status-running-dot: #E8981E;
+    --status-done: #1E7A4C;
+    --status-done-dot: #28436A;
+
+    --card-shadow: 0 1px 2px rgba(20, 22, 48, 0.04), 0 4px 15px rgba(20, 22, 48, 0.04);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Manrope', sans-serif;
+    color: var(--text-main);
+    margin: 0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Page Header */
+.page-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.1;
+    color: var(--text-main);
+    margin: 0 0 8px 0;
+}
+
+.page-header p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+@media (max-width: 600px) {
+    .page-header h1 {
+        font-size: 30px;
+    }
+    .page-header p {
+        font-size: 15px;
+    }
+}
+
+/* Planner Main Container */
+.planner {
+    background-color: var(--card-bg);
+    width: 100%;
+    max-width: 680px;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+/* Day Navigation */
+.day-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 16px;
+}
+
+.current-day {
+    text-align: center;
+}
+
+.current-day h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.2;
+    margin: 0 0 4px 0;
+    color: var(--text-main);
+}
+
+.current-day time {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--text-secondary);
+}
+
+/* Nav Buttons */
+.nav-button {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-main);
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.nav-button:hover {
+    background-color: var(--code-nav-hover);
+}
+
+.nav-button:focus-visible {
+    outline: 2px solid var(--indigo);
+    outline-offset: 2px;
+}
+
+/* Task Sections */
+.task-section {
+    margin-bottom: 24px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.section-heading {
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.morning-section .section-heading {
+    background-color: var(--morning-bg);
+}
+
+.morning-section .section-heading h2 {
+    color: var(--morning-text);
+}
+
+.evening-section .section-heading {
+    background-color: var(--evening-bg);
+}
+
+.evening-section .section-heading h2 {
+    color: var(--evening-text);
+}
+
+.section-heading h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.25;
+    margin: 0 0 4px 0;
+}
+
+.section-heading p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--text-secondary);
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+
+/* Tables */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.task-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.task-table th {
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary);
+    background-color: var(--card-bg);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.task-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--row-border);
+    vertical-align: middle;
+}
+
+.task-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Columns width */
+.check-column {
+    width: 60px;
+    text-align: center;
+}
+
+.status-column {
+    width: 140px;
+    text-align: right;
+}
+
+/* Checkbox (PDF talabi bo'yicha accent-color) */
+.task-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--indigo);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.task-checkbox:focus-visible {
+    outline: 2px solid var(--indigo);
+    outline-offset: 2px;
+}
+
+/* Task Inputs */
+.task-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--text-main);
+    padding: 4px 0;
+    outline: none;
+    transition: background-color 0.2s, padding 0.2s;
+}
+
+.task-input::placeholder {
+    color: var(--placeholder);
+    font-weight: 400;
+}
+
+.task-input:hover {
+    background-color: var(--hover-bg);
+    border-radius: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.task-input:focus {
+    background-color: var(--card-bg);
+    outline: 1.5px solid var(--indigo);
+    border-radius: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+/* Status Cell */
+.status-cell {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--status-running);
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.status-cell::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background-color: var(--status-running-dot);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+@media (max-width: 600px) {
+    .status-cell {
+        font-size: 13px;
+    }
+}
+
+/* JavaScript orqali qo'shiladigan holatlar (.is-done va .is-confirmed) */
+.task-row.is-done .task-input {
+    text-decoration: line-through;
+    color: var(--placeholder);
+}
+
+.task-row.is-done .status-cell {
+    color: var(--status-done);
+}
+
+.task-row.is-done .status-cell::before {
+    background-color: var(--status-done-dot);
+}
+
+.task-row.is-confirmed {
+    cursor: default;
+}
+
+.task-row.is-confirmed .task-input {
+    pointer-events: none;
+}
+
+.task-row.is-confirmed .task-input:hover {
+    background-color: transparent;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Planner Actions (Tugmalar) */
+.planner-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.confirm-button, .delete-completed-button, .add-row-button {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.confirm-button {
+    flex: 2;
+    background-color: var(--indigo);
+    color: white;
+    border: none;
+    padding: 12px;
+}
+
+.confirm-button:hover {
+    background-color: var(--indigo-hover);
+}
+
+.confirm-button:active {
+    background-color: var(--indigo-active);
+}
+
+.confirm-button:focus-visible {
+    outline: 2px solid var(--indigo);
+    outline-offset: 2px;
+}
+
+.add-row-button {
+    flex: 1;
+    background-color: var(--card-bg);
+    color: var(--indigo);
+    border: 1.5px solid var(--indigo);
+    padding: 12px;
+    font-size: 18px;
+}
+
+.add-row-button:hover {
+    background-color: var(--indigo-light);
+}
+
+.add-row-button:focus-visible {
+    outline: 2px solid var(--indigo);
+    outline-offset: 2px;
+}
+
+.delete-completed-button {
+    flex: 2;
+    background-color: var(--card-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 12px;
+}
+
+.delete-completed-button:hover {
+    background-color: var(--hover-bg);
+}
+
+.delete-completed-button:focus-visible {
+    outline: 2px solid var(--indigo);
+    outline-offset: 2px;
+}
+
+/* Planner Note */
+.planner-note {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+    text-align: center;
+}
+
+.planner-note code {
+    font-family: monospace;
+    font-size: 12px;
+    background-color: var(--bg-color);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--text-main);
+}
