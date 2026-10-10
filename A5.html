@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kun tartibi jadvali</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Kun tartibi va Vazifalar Jadvali</h1>
+
+  <!-- Yangi vazifa qo'shish qismi -->
+  <div class="add-task-container">
+    <input type="text" id="task-input" placeholder="Yangi vazifa kiriting...">
+    <button type="button" id="add-btn">Qo'shish</button>
+  </div>
+
+  <br>
+
+  <!-- Asosiy Jadval -->
+  <table border="1" class="todo-table">
+    <thead>
+      <tr>
+        <th>Vaqti</th>
+        <th>Turi</th>
+        <th>Holati</th>
+        <th>Vazifa nomi</th>
+        <th>Amal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- ERTALABKI VAZIFALAR -->
+      <tr data-time="morning" data-type="mandatory">
+        <td rowspan="3">Ertalabki</td>
+        <td rowspan="2">Majburiy</td>
+        <td><input type="checkbox" id="t1" class="task-check"></td>
+        <td><label for="t1">1. Badantarbiya qilish</label></td>
+        <td><button type="button" class="delete-btn">O'chirish</button></td>
+      </tr>
+      <tr data-time="morning" data-type="mandatory">
+        <td><input type="checkbox" id="t2" class="task-check"></td>
+        <td><label for="t2">2. Nonushta qilish</label></td>
+        <td><button type="button" class="delete-btn">O'chirish</button></td>
+      </tr>
+      <tr data-time="morning" data-type="optional">
+        <td>Ixtiyoriy</td>
+        <td><input type="checkbox" id="t3" class="task-check"></td>
+        <td><label for="t3">1. Kitob o'qish (15 daqiqa)</label></td>
+        <td><button type="button" class="delete-btn">O'chirish</button></td>
+      </tr>
+
+      <!-- KECHQURUNGI VAZIFALAR -->
+      <tr data-time="evening" data-type="mandatory">
+        <td rowspan="2">Kechqurungi</td>
+        <td>Majburiy</td>
+        <td><input type="checkbox" id="t4" class="task-check"></td>
+        <td><label for="t4">1. Kunlik vazifalarni tekshirish</label></td>
+        <td><button type="button" class="delete-btn">O'chirish</button></td>
+      </tr>
+      <tr data-time="evening" data-type="optional">
+        <td>Ixtiyoriy</td>
+        <td><input type="checkbox" id="t5" class="task-check"></td>
+        <td><label for="t5">1. Sayohat qilish yoki sayr</label></td>
+        <td><button type="button" class="delete-btn">O'chirish</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script src="main.js"></script>
+</body>
+</html>
