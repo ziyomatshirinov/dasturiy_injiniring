@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kunlik reja</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root {
+  --bg: #e9ecf2;
+  --paper: #ffffff;
+  --ink: #1b1f27;
+  --muted: #6a7282;
+  --line: #2a2f3a;
+  --soft-line: #c9cfdb;
+  --accent: #4472c4;
+  --accent-edge: #1f3864;
+  --accent-ink: #ffffff;
+  --active: #e4ecfa;
+  --done: #2e7d4f;
+  --font-serif: "Source Serif 4", "Times New Roman", Times, serif;
+  --font-ui: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1218;
+    --paper: #181c24;
+    --ink: #e8eaef;
+    --muted: #8c95a8;
+    --line: #8791a6;
+    --soft-line: #343b4a;
+    --accent: #3f6fc4;
+    --accent-edge: #9db8ec;
+    --accent-ink: #ffffff;
+    --active: #1f2a42;
+    --done: #6cc28f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1218;
+  --paper: #181c24;
+  --ink: #e8eaef;
+  --muted: #8c95a8;
+  --line: #8791a6;
+  --soft-line: #343b4a;
+  --accent: #3f6fc4;
+  --accent-edge: #9db8ec;
+  --accent-ink: #ffffff;
+  --active: #1f2a42;
+  --done: #6cc28f;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  padding-inline: 16px;
+  padding-block: 20px 32px;
+}
+.wrap { max-width: 640px; margin-inline: auto; display: flex; flex-direction: column; gap: 18px; }
+
+.sheet {
+  background: var(--paper);
+  border: 1px solid var(--soft-line);
+  border-radius: 6px;
+  padding: 14px;
+}
+table { width: 100%; border-collapse: collapse; table-layout: fixed; font-family: var(--font-serif); font-size: 18px; }
+td { border: 1px solid var(--line); padding: 0; vertical-align: middle; }
+col.c-g { width: 38px; }
+col.c-s { width: 38px; }
+col.c-chk { width: 56px; }
+
+.head td { padding: 8px 10px; font-size: 18px; }
+.head .date { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.head .date b { font-weight: 600; }
+.head .prog { text-align: center; font-family: var(--font-ui); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.today-btn {
+  font: 500 12px var(--font-ui); color: var(--accent); background: none; border: 1px solid var(--accent);
+  border-radius: 999px; padding: 3px 10px; cursor: pointer;
+}
+.today-btn:hover { background: var(--active); }
+
+td.g, td.s { text-align: center; font-weight: 600; background: transparent; }
+td.g { font-size: 20px; }
+td.g small, td.s small { display: block; font-family: var(--font-ui); font-size: 9px; font-weight: 500; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 2px; }
+
+td.task { padding: 0; }
+.cell { display: flex; align-items: center; gap: 6px; padding-inline: 8px; min-height: 40px; }
+.n { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 1.4em; }
+.cell input {
+  flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink);
+  font: inherit; padding-block: 8px; outline: none;
+}
+.cell input::placeholder { color: transparent; }
+tr.active td.task, tr.active td.chk { background: var(--active); }
+tr.active .cell input::placeholder { color: var(--muted); }
+tr.ok .cell input { font-weight: 600; }
+tr.done .cell input { text-decoration: line-through; text-decoration-thickness: 1px; color: var(--muted); }
+tr.ok .n::after { content: ""; }
+
+td.chk { text-align: center; }
+.tick {
+  width: 100%; height: 40px; border: 0; background: transparent; color: var(--done);
+  font: 600 24px var(--font-serif); cursor: pointer; display: block;
+}
+.tick:focus-visible, .cell input:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.legend { font: 12px/1.5 var(--font-ui); color: var(--muted); margin-top: 10px; }
+
+.bar { display: grid; grid-template-columns: 48px 1fr 48px 1fr 48px; gap: 8px; }
+.bar button {
+  min-height: 48px; padding: 6px 4px; background: var(--accent); color: var(--accent-ink);
+  border: 2px solid var(--accent-edge); border-radius: 12px;
+  font: 500 15px var(--font-ui); cursor: pointer; touch-action: manipulation;
+}
+.bar button:hover { filter: brightness(1.08); }
+.bar button:active { transform: translateY(1px); }
+.bar button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.bar .sym { font-size: 20px; padding: 0; }
+
+.toast {
+  min-height: 20px; text-align: center; font: 500 13px var(--font-ui); color: var(--muted);
+}
+@media (max-width: 420px) {
+  table { font-size: 17px; }
+  .sheet { padding: 10px; }
+  .bar button { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .bar button:active { transform: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="sheet">
+    <table aria-label="Kunlik reja jadvali">
+      <colgroup><col class="c-g"><col class="c-s"><col><col class="c-chk"></colgroup>
+      <tbody id="body"></tbody>
+    </table>
+    <p class="legend"><b>E</b> ertalab · <b>K</b> kechqurun · <b>M</b> majburiy · <b>I</b> ixtiyoriy. Rejani yozib bo'lgach Tasdiqlash bosing: yozilmagan qatorlar o'chadi. + tugmasi hamma bo'limga yangi qator qo'shadi.</p>
+  </div>
+
+  <div class="bar" role="group" aria-label="Amallar">
+    <button class="sym" id="prev" aria-label="Oldingi kun" title="Oldingi kun">&lt;</button>
+    <button id="confirm">Tasdiqlash</button>
+    <button class="sym" id="add" aria-label="Qator qo'shish" title="Qator qo'shish">+</button>
+    <button id="done">Bajarildi</button>
+    <button class="sym" id="next" aria-label="Keyingi kun" title="Keyingi kun">&gt;</button>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+(function () {
+  var GROUPS = [
+    { k: "E", name: "Ertalab", subs: [{ k: "M", name: "Majburiy" }, { k: "I", name: "Ixtiyoriy" }] },
+    { k: "K", name: "Kechqurun", subs: [{ k: "M", name: "Majburiy" }, { k: "I", name: "Ixtiyoriy" }] }
+  ];
+  var MIN_ROWS = 3, MAX_ROWS = 15;
+  var WEEKDAYS = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
+  var MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avgust", "sentabr", "oktabr", "noyabr", "dekabr"];
+  var STORE_KEY = "kunlik-reja-v1";
+
+  var memory = {};
+  function readStore() {
+    try { var raw = localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) : memory; } catch (e) { return memory; }
+  }
+  function writeStore(obj) {
+    memory = obj;
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(obj)); } catch (e) {}
+  }
+
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  function keyOf(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  var current = new Date(); current.setHours(12, 0, 0, 0);
+  var todayKey = keyOf(current);
+
+  function emptyRow() { return { t: "", done: false, ok: false }; }
+  function emptyDay() {
+    var d = {};
+    GROUPS.forEach(function (g) {
+      g.subs.forEach(function (s) {
+        d[g.k + s.k] = [];
+        for (var i = 0; i < MIN_ROWS; i++) d[g.k + s.k].push(emptyRow());
+      });
+    });
+    return d;
+  }
+
+  var all = readStore();
+  var day = null;
+  var active = null; // {sk:"EM", i:0}
+
+  function loadDay() {
+    var k = keyOf(current);
+    day = all[k] || emptyDay();
+    // eski yozuvda ba'zi bo'limlar yetishmasa to'ldiramiz
+    var base = emptyDay();
+    Object.keys(base).forEach(function (sk) { if (!day[sk]) day[sk] = base[sk]; });
+    all[k] = day;
+    active = null;
+  }
+  function save() {
+    // butunlay bo'sh kunni saqlamaymiz
+    var k = keyOf(current);
+    var hasAny = Object.keys(day).some(function (sk) { return day[sk].some(function (r) { return r.t.trim() || r.done; }); });
+    if (hasAny) all[k] = day; else delete all[k];
+    writeStore(all);
+  }
+
+  function ensureSpace(sk) {
+    var rows = day[sk];
+    var full = rows.every(function (r) { return r.t.trim(); });
+    if (full && rows.length < MAX_ROWS) rows.push(emptyRow());
+  }
+
+  function tidy() {
+    var removed = 0;
+    Object.keys(day).forEach(function (sk) {
+      var rows = day[sk];
+      var filled = rows.filter(function (r) { return r.t.trim(); });
+      var target = filled.length;
+      var next = filled.slice();
+      while (next.length < target) next.push(emptyRow());
+      var lostEmpty = rows.length - filled.length - (next.length - filled.length);
+      if (lostEmpty > 0) removed += lostEmpty;
+      day[sk] = next;
+    });
+    return removed;
+  }
+
+  var body = document.getElementById("body");
+  var toastEl = document.getElementById("toast");
+  var toastTimer = null;
+  function toast(msg) {
+    toastEl.textContent = msg;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.textContent = ""; }, 2600);
+  }
+
+  function dateLabel() {
+    var d = current;
+    return d.getDate() + "-" + MONTHS[d.getMonth()] + " " + d.getFullYear() + ", " + WEEKDAYS[d.getDay()].toLowerCase();
+  }
+  function progress() {
+    var done = 0, total = 0;
+    Object.keys(day).forEach(function (sk) {
+      day[sk].forEach(function (r) { if (r.t.trim()) { total++; if (r.done) done++; } });
+    });
+    return done + "/" + total;
+  }
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  function render(focusAt) {
+    body.textContent = "";
+
+    // Sarlavha qatori
+    var head = el("tr", "head");
+    var tdDate = el("td"); tdDate.colSpan = 3;
+    var dwrap = el("div", "date");
+    var lab = el("span"); lab.appendChild(document.createTextNode("Sana: ")); lab.appendChild(el("b", "", dateLabel()));
+    dwrap.appendChild(lab);
+    if (keyOf(current) !== todayKey) {
+      var tb = el("button", "today-btn", "Bugun"); tb.type = "button";
+      tb.addEventListener("click", function () { current = new Date(); current.setHours(12, 0, 0, 0); loadDay(); render(); });
+      dwrap.appendChild(tb);
+    }
+    tdDate.appendChild(dwrap);
+    var tdProg = el("td", "prog", progress()); tdProg.title = "Bajarilgan / jami";
+    head.appendChild(tdDate); head.appendChild(tdProg);
+    body.appendChild(head);
+
+    GROUPS.forEach(function (g) {
+      var groupRows = g.subs.reduce(function (n, s) { return n + day[g.k + s.k].length; }, 0);
+      var firstInGroup = true;
+      g.subs.forEach(function (s) {
+        var sk = g.k + s.k;
+        var rows = day[sk];
+        rows.forEach(function (r, i) {
+          var tr = el("tr");
+          if (active && active.sk === sk && active.i === i) tr.classList.add("active");
+          if (r.ok) tr.classList.add("ok");
+          if (r.done) tr.classList.add("done");
+
+          if (firstInGroup) {
+            var tg = el("td", "g"); tg.rowSpan = groupRows;
+            tg.appendChild(document.createTextNode(g.k));
+            tg.appendChild(el("small", "", g.name.slice(0, 3)));
+            tg.title = g.name;
+            tr.appendChild(tg); firstInGroup = false;
+          }
+          if (i === 0) {
+            var ts = el("td", "s"); ts.rowSpan = rows.length;
+            ts.appendChild(document.createTextNode(s.k));
+            ts.appendChild(el("small", "", s.name.slice(0, 3)));
+            ts.title = s.name;
+            tr.appendChild(ts);
+          }
+
+          var tt = el("td", "task");
+          var cell = el("label", "cell");
+          cell.appendChild(el("span", "n", (i + 1) + "."));
+          var inp = document.createElement("input");
+          inp.type = "text"; inp.value = r.t;
+          inp.placeholder = "Reja yozing…";
+          inp.setAttribute("aria-label", g.name + ", " + s.name.toLowerCase() + ", " + (i + 1) + "-reja");
+          inp.dataset.sk = sk; inp.dataset.i = i;
+          inp.autocomplete = "off";
+          inp.addEventListener("focus", function () { setActive(sk, i); });
+          inp.addEventListener("input", function () {
+            r.t = inp.value; r.ok = false;
+            inp.closest("tr").classList.remove("ok");
+            var before = rows.length;
+            ensureSpace(sk);
+            save();
+            if (rows.length !== before) render({ sk: sk, i: i, keepCaret: true });
+            else updateProgress();
+          });
+          inp.addEventListener("keydown", function (ev) {
+            if (ev.key === "Enter") { ev.preventDefault(); var L = flat(); var ix = L.findIndex(function (x) { return x.sk === sk && x.i === i; }); var nx = L[ix + 1]; if (nx) { var ni = body.querySelector('input[data-sk="' + nx.sk + '"][data-i="' + nx.i + '"]'); if (ni) ni.focus(); } }
+          });
+          cell.appendChild(inp);
+          tt.appendChild(cell);
+          tt.addEventListener("click", function () { setActive(sk, i); });
+          tr.appendChild(tt);
+
+          var tc = el("td", "chk");
+          var tick = el("button", "tick", r.done ? "✓" : ""); tick.type = "button";
+          tick.setAttribute("aria-label", "Bajarildi deb belgilash");
+          tick.setAttribute("aria-pressed", r.done ? "true" : "false");
+          tick.addEventListener("click", function () { setActive(sk, i); toggleDone(); });
+          tc.appendChild(tick); tr.appendChild(tc);
+
+          body.appendChild(tr);
+        });
+      });
+    });
+
+    if (focusAt) {
+      var target = body.querySelector('input[data-sk="' + focusAt.sk + '"][data-i="' + focusAt.i + '"]');
+      if (target) {
+        if (!target.readOnly) {
+          target.focus();
+          if (focusAt.keepCaret) { var L = target.value.length; try { target.setSelectionRange(L, L); } catch (e) {} }
+        } else { setActive(focusAt.sk, focusAt.i, true); }
+      }
+    }
+  }
+
+  function updateProgress() {
+    var p = body.querySelector(".prog"); if (p) p.textContent = progress();
+  }
+
+  function setActive(sk, i, rerender) {
+    if (active && active.sk === sk && active.i === i && !rerender) return;
+    active = { sk: sk, i: i };
+    var trs = body.querySelectorAll("tr");
+    for (var k = 0; k < trs.length; k++) trs[k].classList.remove("active");
+    var inp = body.querySelector('input[data-sk="' + sk + '"][data-i="' + i + '"]');
+    if (inp) inp.closest("tr").classList.add("active");
+  }
+
+  function flat() {
+    var list = [];
+    GROUPS.forEach(function (g) { g.subs.forEach(function (s) {
+      var sk = g.k + s.k; day[sk].forEach(function (r, i) { list.push({ sk: sk, i: i }); });
+    }); });
+    return list;
+  }
+
+  function needActive() {
+    if (active) return true;
+    toast("Avval qatorni tanlang.");
+    return false;
+  }
+
+  function confirmActive() {
+    var anyText = Object.keys(day).some(function (sk) { return day[sk].some(function (r) { return r.t.trim(); }); });
+    if (!anyText) { toast("Avval reja yozing."); return; }
+    Object.keys(day).forEach(function (sk) {
+      day[sk].forEach(function (r) { if (r.t.trim()) { r.t = r.t.trim(); r.ok = true; } });
+    });
+    var removed = tidy();
+    active = null;
+    save();
+    render();
+    toast(removed ? "Tasdiqlandi. Yozilmagan qatorlar olib tashlandi." : "Tasdiqlandi.");
+  }
+
+  function toggleDone() {
+    if (!needActive()) return;
+    var r = day[active.sk][active.i];
+    if (!r.t.trim()) { toast("Bo'sh qatorni belgilab bo'lmaydi."); return; }
+    r.done = !r.done;
+    if (r.done) r.ok = true;
+    save();
+    render();
+    if (r.done) toast("Bajarildi ✓");
+  }
+
+  function addRow() {
+    // To'rtala bo'limga (E-M, E-I, K-M, K-I) bittadan yangi qator qo'shiladi
+    var added = 0;
+    Object.keys(day).forEach(function (sk) {
+      if (day[sk].length < MAX_ROWS) { day[sk].push(emptyRow()); added++; }
+    });
+    if (!added) { toast("Qatorlar soni chegaraga yetdi."); return; }
+    save();
+    var sk = active ? active.sk : "EM";
+    active = { sk: sk, i: day[sk].length - 1 };
+    render(active);
+    toast("Hamma bo'limga yangi qator qo'shildi.");
+  }
+
+  function shiftDay(delta) {
+    save();
+    current = new Date(current.getFullYear(), current.getMonth(), current.getDate() + delta, 12, 0, 0, 0);
+    loadDay();
+    render();
+  }
+
+  document.getElementById("confirm").addEventListener("click", confirmActive);
+  document.getElementById("done").addEventListener("click", toggleDone);
+  document.getElementById("add").addEventListener("click", addRow);
+  document.getElementById("prev").addEventListener("click", function () { shiftDay(-1); });
+  document.getElementById("next").addEventListener("click", function () { shiftDay(1); });
+
+  loadDay();
+  render();
+})();
+</script>
+</body>
+</html>
