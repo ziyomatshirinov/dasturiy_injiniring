@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadval va Tugmalar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src = "script.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
+
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl p-6 md:p-8 border border-slate-200">
+        
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-xl md:text-2xl font-bold text-slate-800">Nazorat Jadvali</h1>
+            <div class="flex items-center space-x-2 bg-slate-50 border border-slate-300 rounded-lg px-4 py-2">
+                <span class="font-semibold text-slate-700">Sana:</span>
+                <input type="date" value="2026-10-10" class="bg-transparent text-slate-700 font-medium focus:outline-none cursor-pointer">
+            </div>
+        </div>
+
+        <div class="overflow-x-auto mb-8 border border-slate-300 rounded-xl">
+            <table class="w-full border-collapse text-left">
+                <thead>
+                    <tr class="bg-slate-200 text-slate-700 text-sm md:text-base font-semibold border-b border-slate-300">
+                        <th class="p-3 w-16 text-center border-r border-slate-300">Guruh</th>
+                        <th class="p-3 w-20 text-center border-r border-slate-300">Bo'lim</th>
+                        <th class="p-3 border-r border-slate-300">Bandlar</th>
+                        <th class="p-3 w-24 text-center">Holat</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-300 text-sm md:text-base text-slate-800">
+                    
+                    <!-- E GROUP - M SECTION -->
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td rowspan="6" class="p-3 text-center font-bold bg-slate-100 border-r border-slate-300 align-middle text-indigo-700 text-lg">E</td>
+                        <td rowspan="3" class="p-3 text-center font-semibold bg-slate-50 border-r border-slate-300 align-middle text-slate-600">M</td>
+                        <td class="p-3 border-r border-slate-300 flex items-center justify-between">
+                            <span>1. Asosiy vazifani bajarish</span>
+                        </td>
+                        <td class="p-3 text-center align-middle">
+                            <input type="checkbox" checked class="w-5 h-5 accent-blue-600 cursor-pointer rounded">
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="p-3 border-r border-slate-300">2. Ma'lumotlarni tahlil qilish</td>
+                        <td class="p-3 text-center align-middle">
+                            <input type="checkbox" class="w-5 h-5 accent-blue-600 cursor-pointer rounded">
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="p-3 border-r border-slate-300">3. Hisobot tayyorlash</td>
+                        <td class="p-3 text-center align-middle">
+                            <input type="checkbox" class="w-5 h-5 accent-blue-600 cursor-pointer rounded">
+                        </td>
+                    </tr>
+
+                    <!-- E GROUP - I SECTION -->
+                    <tr class="hover:bg-slate-50 transition-colors border-t border-slate-300">
+                        <td rowspan="3" class="p-3 text-center font-semibold bg-slate-50 border-r border-slate-300 align-middle text-slate-600">I</td>
+                        <td class="p-3 border-r border-slate-300">1. Xavfsizlik qoidalariga rioya qilish</td>
+                        <td class="p-3 text-center align-middle">
+                            <input type="checkbox" class="w-5 h-5 accent-blue-600 cursor-pointer rounded">
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="p-3 border-r border-slate-300">2. Jihozlarni tekshirish</td>
+                        <td class="p-3 text-center align-middle">
+                            <input type="checkbox" class="w-5 h-5 accent-blue-600 cursor-pointer rounded">
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="p-3 border-r border-slate-300">3. Ish joyini tartibga keltirish</td>
+                        <td class="p-3 text-center align-middle">
+                            <input type="checkbox" class="w-5 h-5 accent-blue-600 cursor-pointer rounded">
+                        </td>
+                    </tr>
+
+                    <!-- K GROUP - M SECTION -->
+                    <tr class="hover:bg-slate-50 transition-colors border-t-2 border-slate-400">
+                        <td rowspan="6" class="p-3 text-center font-bold bg-slate-100 border-r border-slate-300 align-middle text-indigo-700 text-lg">K</td>
+                        <td rowspan="3" class="p-3 text-center font-semibold bg-slate-50 border-r border-slate-300 align-middle text-slate-600">M</td>
+                        <td class="p-3 border-r border-slate-300">1. Rejani tuzish va tasdiqlash</td>
+                        <td class="p-3 text-center align-middle">
+                            <input type="checkbox" class="w-5 h-5 accent-blue-600 cursor-pointer rounded">
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="p-3 border-r border-slate-300">2. Resurslarni taqsimlash</td>
+                        <td class="p-3 text-center align-middle">
+                            <input type="checkbox" class="w-5 h-5 accent-blue-600 cursor-pointer rounded">
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="p-3 border-r border-slate-300">3. Muddatlarni nazorat qilish</td>
+                        <td class="p-3 text-center align-middle">
+                            <input type="checkbox" class="w-5 h-5 accent-blue-600 cursor-pointer rounded">
+                        </td>
+                    </tr>
+
+                    <!-- K GROUP - I SECTION -->
+                    <tr class="hover:bg-slate-50 transition-colors border-t border-slate-300">
+                        <td rowspan="3" class="p-3 text-center font-semibold bg-slate-50 border-r border-slate-300 align-middle text-slate-600">I</td>
+                        <td class="p-3 border-r border-slate-300">1. Sifatni baholash</td>
+                        <td class="p-3 text-center align-middle">
+                            <input type="checkbox" class="w-5 h-5 accent-blue-600 cursor-pointer rounded">
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="p-3 border-r border-slate-300">2. Natijalarni umumlashtirish</td>
+                        <td class="p-3 text-center align-middle">
+                            <input type="checkbox" class="w-5 h-5 accent-blue-600 cursor-pointer rounded">
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="p-3 border-r border-slate-300">3. Yakuniy topshiriq</td>
+                        <td class="p-3 text-center align-middle">
+                            <input type="checkbox" class="w-5 h-5 accent-blue-600 cursor-pointer rounded">
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 md:gap-4 pt-2">
+            
+            <!-- Previous Button -->
+            <button onclick="handleAction('Orqaga')" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold px-5 py-3 rounded-xl shadow-md transition transform flex items-center justify-center min-w-[50px]">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+
+            <!-- Tasdiqlash Button -->
+            <button onclick="handleAction('Tasdiqlash')" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold px-6 py-3 rounded-xl shadow-md transition transform">
+                Tasdiqlash
+            </button>
+
+            <!-- Plus Button -->
+            <button onclick="handleAction('Qo\'shish')" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xl px-5 py-2.5 rounded-xl shadow-md transition transform flex items-center justify-center min-w-[50px]">
+                +
+            </button>
+
+            <!-- Bajarildi Button -->
+            <button onclick="handleAction('Bajarildi')" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold px-6 py-3 rounded-xl shadow-md transition transform">
+                Bajarildi
+            </button>
+
+            <!-- Next Button -->
+            <button onclick="handleAction('Oldinga')" class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold px-5 py-3 rounded-xl shadow-md transition transform flex items-center justify-center min-w-[50px]">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </button>
+
+        </div>
+
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none">
+        Amaliyot bajarildi!
+    </div>
+
+    <script>
+        function handleAction(actionName) {
+            const toast = document.getElementById('toast');
+            toast.textContent = `'${actionName}' tugmasi bosildi`;
+            toast.classList.remove('opacity-0');
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+            }, 2500);
+        }
+    </script>
+
+</body>
+</html>
