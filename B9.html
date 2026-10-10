@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ro‘yxat dasturi</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app" id="app">
+  <div class="date-row">
+    <div class="date-label">Sana: </div>
+    <input class="date-input" id="dateInput" type="date" aria-label="Sana">
+  </div>
+  <div class="table-wrap">
+    <table aria-label="Vazifalar jadvali">
+      <colgroup><col class="group"><col class="kind"><col class="number"><col><col class="status"></colgroup>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+  <div class="toolbar">
+    <button id="undoBtn" type="button" title="Bitta amal ortga qaytarish">&lt;</button>
+    <button id="confirmBtn" type="button">Tasdiqlash</button>
+    <button id="addBtn" type="button" title="Yangi qator qo‘shish">+</button>
+    <button id="runBtn" type="button">Bajarildi</button>
+    <button id="nextBtn" type="button" title="Keyingi bo‘lim">&gt;</button>
+  </div>
+  <div class="message" id="message" aria-live="polite"></div>
+</div>
+<script src="script.js" defer></script>
+</body>
+</html>
