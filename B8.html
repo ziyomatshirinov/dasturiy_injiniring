@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kundalik ishlar</title>
+  <link rel="stylesheet" href="B8.css">
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="sarlavha">Kundalik ishlar</h1>
+
+    <section class="oyna jadval-karta">
+      <div class="jadval-orovchi">
+        <table id="jadval" aria-label="Kundalik ishlar jadvali"></table>
+      </div>
+    </section>
+
+    <div class="tugmalar">
+      <button id="btnPrev" class="tugma kichik" title="Kechagi kun" aria-label="Kechagi kun">&#8249;</button>
+      <button id="btnConfirm" class="tugma tasdiq" title="Bo'sh qatorlarni o'chirish">Tasdiqlash</button>
+      <button id="btnPlus" class="tugma kichik plus" title="To'lgan guruhlarga qator qo'shish" aria-label="Qator qo'shish">+</button>
+      <button id="btnDone" class="tugma bajar" title="Belgilanganlarni bajarilganlar ro'yxatiga o'tkazish">Bajarildi</button>
+      <button id="btnClear" class="tugma tozala" title="Jadvaldagi hamma ishlarni tozalash">Tozalash</button>
+      <button id="btnNext" class="tugma kichik" title="Ertangi kun" aria-label="Ertangi kun">&#8250;</button>
+    </div>
+
+    <p id="holat" class="holat" role="status" aria-live="polite"></p>
+
+    <section id="arxiv" class="oyna arxiv" hidden>
+      <div class="arxiv-bosh">
+        <h2>Bajarilgan ishlar</h2>
+        <div class="arxiv-ong">
+          <span id="arxivSoni" class="soni">0</span>
+          <button id="btnClearDone" class="mayda-tugma" type="button" title="Bajarilgan ishlar ro'yxatini tozalash">Ro'yxatni tozalash</button>
+        </div>
+      </div>
+      <ul id="arxivRoyxat" class="arxiv-royxat"></ul>
+    </section>
+  </main>
+
+  <script src="B8.js"></script>
+</body>
+</html>
