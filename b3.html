@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B3 — Daily Planner</title>
+    <link rel="stylesheet" href="b3.css">
+</head>
+<body>
+    <header class="page-header">
+        <h1>B3 — Daily Planner</h1>
+        <p>Kunlik vazifalaringizni rejalashtiring</p>
+    </header>
+
+    <main class="planner">
+        <nav class="day-navigation" aria-label="Kunlar bo‘yicha navigatsiya">
+            <button type="button" id="previousDay" class="nav-button" aria-label="Kechagi kun">&lt; Kechagi</button>
+            <div class="current-day">
+                <h2 id="dayTitle">Bugungi vazifalar</h2>
+                <time id="dayDate"></time>
+            </div>
+            <button type="button" id="nextDay" class="nav-button" aria-label="Ertangi kun">Ertangi &gt;</button>
+        </nav>
+
+        <section class="task-section morning-section" aria-labelledby="morningTitle">
+            <div class="section-heading">
+                <div>
+                    <h2 id="morningTitle">☀️ Ertalabgi</h2>
+                    <p>Kun boshida bajariladigan ishlar</p>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="task-table" id="morningTable">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="check-column">Belgi</th>
+                            <th scope="col">Vazifa</th>
+                            <th scope="col" class="status-column">Holati</th>
+                        </tr>
+                    </thead>
+                    <tbody id="morningTasks">
+                        <tr class="task-row">
+                            <td class="check-column"><input type="checkbox" class="task-checkbox" aria-label="Ertalabgi 1-vazifani belgilash"></td>
+                            <td><input type="text" class="task-input" placeholder="1-vazifa..." aria-label="Ertalabgi 1-vazifa"></td>
+                            <td class="status-cell">Bajarilmoqda</td>
+                        </tr>
+                        <tr class="task-row">
+                            <td class="check-column"><input type="checkbox" class="task-checkbox" aria-label="Ertalabgi 2-vazifani belgilash"></td>
+                            <td><input type="text" class="task-input" placeholder="2-vazifa..." aria-label="Ertalabgi 2-vazifa"></td>
+                            <td class="status-cell">Bajarilmoqda</td>
+                        </tr>
+                        <tr class="task-row">
+                            <td class="check-column"><input type="checkbox" class="task-checkbox" aria-label="Ertalabgi 3-vazifani belgilash"></td>
+                            <td><input type="text" class="task-input" placeholder="3-vazifa..." aria-label="Ertalabgi 3-vazifa"></td>
+                            <td class="status-cell">Bajarilmoqda</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="task-section evening-section" aria-labelledby="eveningTitle">
+            <div class="section-heading">
+                <div>
+                    <h2 id="eveningTitle">🌙 Kechki</h2>
+                    <p>Kunning ikkinchi yarmidagi ishlar</p>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table class="task-table" id="eveningTable">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="check-column">Belgi</th>
+                            <th scope="col">Vazifa</th>
+                            <th scope="col" class="status-column">Holati</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eveningTasks">
+                        <tr class="task-row">
+                            <td class="check-column"><input type="checkbox" class="task-checkbox" aria-label="Kechki 1-vazifani belgilash"></td>
+                            <td><input type="text" class="task-input" placeholder="1-vazifa..." aria-label="Kechki 1-vazifa"></td>
+                            <td class="status-cell">Bajarilmoqda</td>
+                        </tr>
+                        <tr class="task-row">
+                            <td class="check-column"><input type="checkbox" class="task-checkbox" aria-label="Kechki 2-vazifani belgilash"></td>
+                            <td><input type="text" class="task-input" placeholder="2-vazifa..." aria-label="Kechki 2-vazifa"></td>
+                            <td class="status-cell">Bajarilmoqda</td>
+                        </tr>
+                        <tr class="task-row">
+                            <td class="check-column"><input type="checkbox" class="task-checkbox" aria-label="Kechki 3-vazifani belgilash"></td>
+                            <td><input type="text" class="task-input" placeholder="3-vazifa..." aria-label="Kechki 3-vazifa"></td>
+                            <td class="status-cell">Bajarilmoqda</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="planner-actions" aria-label="Jadval boshqaruvi">
+            <button type="button" id="confirmTasks" class="confirm-button">Tasdiqlash</button>
+            <button type="button" id="addTaskRow" class="add-row-button" aria-label="Qator qo‘shish">+</button>
+            <button type="button" id="deleteCompletedTasks" class="delete-completed-button">Bajarildi</button>
+        </div>
+
+        <p class="planner-note">
+            Eslatma: tugmalar va kunlar bo‘yicha ma’lumotlarni saqlash funksiyalari
+            <code>script.js</code> orqali amalga oshiriladi.
+        </p>
+    </main>
+
+    <script src="b3.js"></script>
+</body>
+</html>
