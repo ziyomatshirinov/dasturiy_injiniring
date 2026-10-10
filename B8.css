@@ -1,0 +1,440 @@
+:root {
+  --text: #2c3354;
+  --muted: #7d86a8;
+  --glass: rgba(255, 255, 255, .45);
+  --glass-strong: rgba(255, 255, 255, .72);
+  --glass-border: rgba(255, 255, 255, .75);
+  --line: rgba(130, 142, 200, .20);
+  --shadow: 0 10px 34px rgba(120, 130, 190, .20), inset 0 1px 0 rgba(255, 255, 255, .85);
+
+  --e-tint: rgba(176, 198, 255, .30);
+  --k-tint: rgba(255, 222, 165, .34);
+
+  --ok: #17803f;
+  --ok-tint: rgba(150, 232, 185, .42);
+  --bad: #b8353d;
+  --bad-tint: rgba(255, 183, 190, .45);
+
+  --radius: 24px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  background:
+    radial-gradient(circle at 12% 18%, #ffd3e6 0, transparent 38%),
+    radial-gradient(circle at 88% 12%, #c6e2ff 0, transparent 40%),
+    radial-gradient(circle at 78% 88%, #cdf3e1 0, transparent 40%),
+    radial-gradient(circle at 8% 86%, #fff0bf 0, transparent 36%),
+    #f3f0ff;
+  background-attachment: fixed;
+}
+
+.wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 30px 16px 56px;
+}
+
+.sarlavha {
+  margin: 0 0 18px;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -.4px;
+  color: #3a4278;
+}
+
+/* ---------- Shisha (glass) ---------- */
+.oyna {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  backdrop-filter: blur(22px) saturate(170%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.jadval-karta { overflow: hidden; }
+.jadval-orovchi { overflow-x: auto; }
+
+/* ---------- Jadval ---------- */
+#jadval {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 18px;
+}
+
+#jadval td,
+#jadval th {
+  border-bottom: 1px solid var(--line);
+  padding: 0 10px;
+  height: 46px;
+}
+
+#jadval tr:last-child td { border-bottom: none; }
+
+#jadval th.bosh {
+  text-align: left;
+  font-weight: 600;
+  padding: 0 18px;
+  height: 62px;
+  color: #2f3678;
+  background: linear-gradient(90deg, rgba(168, 182, 255, .55), rgba(255, 192, 226, .50));
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.bosh-ichi {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.bosh .sana { font-size: 20px; }
+.bosh .kun  { font-size: 13px; font-weight: 500; opacity: .75; }
+
+.nishon {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .6);
+  border: 1px solid var(--glass-border);
+}
+
+/* Guruh belgilari */
+#jadval td.guruh {
+  text-align: center;
+  vertical-align: middle;
+  padding: 0 6px;
+  border-right: 1px solid var(--line);
+  background: rgba(255, 255, 255, .25);
+}
+
+#jadval td.guruh.katta { width: 54px; }
+#jadval td.guruh.kichik { width: 50px; }
+
+.belgi {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  font-weight: 700;
+  font-size: 17px;
+  box-shadow: 0 3px 8px rgba(120, 130, 190, .22), inset 0 1px 0 rgba(255, 255, 255, .7);
+}
+
+.belgi.E { background: linear-gradient(145deg, #c4d1ff, #9fb2ff); color: #2a3a9a; }
+.belgi.K { background: linear-gradient(145deg, #ffe2b0, #ffc775); color: #7a4300; }
+.belgi.M { background: linear-gradient(145deg, #b6f3e6, #86e5d0); color: #0b6a5b; border-radius: 50%; }
+.belgi.I { background: linear-gradient(145deg, #e3d3ff, #c9acff); color: #5a2aa8; border-radius: 50%; }
+
+/* Qator ranglari */
+tr.blok-e td.ish, tr.blok-e td.tick { background: var(--e-tint); }
+tr.blok-k td.ish, tr.blok-k td.tick { background: var(--k-tint); }
+
+/* Ish matni */
+.ish-ichi { display: flex; align-items: center; gap: 8px; }
+
+.raqam {
+  min-width: 24px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.ish-ichi input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 10px 6px;
+  border-radius: 10px;
+  transition: background .15s, box-shadow .15s;
+}
+
+.ish-ichi input:focus {
+  background: var(--glass-strong);
+  box-shadow: 0 0 0 2px rgba(130, 150, 255, .75);
+}
+
+/* Belgi katagi */
+#jadval td.tick {
+  width: 76px;
+  text-align: center;
+  border-left: 1px solid var(--line);
+  cursor: pointer;
+  user-select: none;
+}
+
+.tickbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(125, 138, 205, .40);
+  border-radius: 50%;
+  font-size: 15px;
+  color: transparent;
+  background: rgba(255, 255, 255, .7);
+  transition: all .15s;
+}
+
+#jadval td.tick:hover .tickbox { border-color: #8fa4ff; }
+
+tr.belgilangan .tickbox {
+  background: linear-gradient(145deg, #9fb2ff, #8398f5);
+  border-color: #8398f5;
+  color: #fff;
+  transform: scale(1.06);
+}
+
+tr.belgilangan .ish-ichi input {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+/* O'tgan kun */
+#jadval.otgan td.tick { cursor: default; }
+#jadval.otgan td.tick:hover .tickbox { border-color: rgba(125, 138, 205, .40); }
+
+tr.bajarilgan td.ish, tr.bajarilgan td.tick { background: var(--ok-tint); }
+tr.bajarilmagan td.ish, tr.bajarilmagan td.tick { background: var(--bad-tint); }
+
+tr.bajarilgan input { color: var(--ok); font-weight: 600; }
+tr.bajarilmagan input { color: var(--bad); font-weight: 600; }
+
+tr.bajarilgan .tickbox { background: #5fcf8b; border-color: #5fcf8b; color: #fff; }
+tr.bajarilmagan .tickbox { border-color: #ee8f97; color: var(--bad); }
+
+/* Animatsiyalar */
+@keyframes yangi {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+tr.yangi td { animation: yangi .35s ease; }
+
+/* Bajarildi bosilganda qator pastga (ro'yxatga) uchib ketadi */
+@keyframes ketdi {
+  0%   { opacity: 1; transform: none; }
+  30%  { opacity: 1; transform: translateX(10px); background: rgba(150, 232, 185, .7); }
+  100% { opacity: 0; transform: translateY(46px) scale(.96); }
+}
+tr.ketmoqda td {
+  animation: ketdi .55s ease-in forwards;
+  background: rgba(150, 232, 185, .55) !important;
+}
+
+/* ---------- Tugmalar (glass) ---------- */
+.tugmalar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.tugma {
+  height: 52px;
+  padding: 0 24px;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  color: #2f3678;
+  font: 600 16px "Segoe UI", system-ui, sans-serif;
+  cursor: pointer;
+  background: rgba(190, 205, 255, .55);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: 0 8px 20px rgba(120, 130, 190, .22), inset 0 1px 0 rgba(255, 255, 255, .85);
+  transition: transform .08s, box-shadow .15s, background .15s, opacity .15s;
+}
+
+.tugma:hover { background: rgba(190, 205, 255, .8); box-shadow: 0 10px 24px rgba(120, 130, 190, .30), inset 0 1px 0 rgba(255, 255, 255, .9); }
+.tugma:active { transform: translateY(1px) scale(.98); }
+.tugma:focus-visible { outline: 3px solid rgba(130, 150, 255, .5); outline-offset: 2px; }
+
+.tugma.bajar { background: rgba(160, 232, 190, .6); color: #12663a; }
+.tugma.bajar:hover { background: rgba(160, 232, 190, .85); }
+
+.tugma.tozala { background: rgba(255, 196, 212, .65); color: #a02a52; }
+.tugma.tozala:hover { background: rgba(255, 196, 212, .9); }
+
+.tugma.kichik {
+  width: 52px;
+  padding: 0;
+  font-size: 28px;
+  font-weight: 500;
+  background: var(--glass-strong);
+  color: #5468d4;
+}
+
+.tugma.kichik:hover { background: rgba(255, 255, 255, .92); }
+
+.tugma.plus {
+  background: rgba(255, 224, 160, .75);
+  color: #8a5400;
+}
+
+.tugma.plus:hover { background: rgba(255, 224, 160, .95); }
+
+.tugma:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.holat {
+  margin: 16px 0 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  min-height: 1.4em;
+}
+
+/* ---------- Bajarilgan ishlar bo'limi ---------- */
+.arxiv {
+  margin-top: 22px;
+  padding: 18px 20px 14px;
+  border-color: rgba(255, 255, 255, .85);
+  background: rgba(205, 245, 224, .38);
+}
+
+.arxiv[hidden] { display: none; }
+
+.arxiv-bosh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.arxiv-ong { display: flex; align-items: center; gap: 10px; }
+
+.mayda-tugma {
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, .65);
+  color: #a02a52;
+  font: 600 13px "Segoe UI", system-ui, sans-serif;
+  cursor: pointer;
+  transition: background .15s;
+}
+.mayda-tugma:hover { background: #fff; }
+.mayda-tugma:disabled { opacity: .4; cursor: not-allowed; }
+
+.bekor {
+  margin-left: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, .8);
+  color: #5468d4;
+  font: 600 13px "Segoe UI", system-ui, sans-serif;
+  cursor: pointer;
+}
+.bekor:hover { background: #fff; }
+
+.arxiv h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #17734a;
+}
+
+.soni {
+  min-width: 30px;
+  text-align: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #17734a;
+  background: rgba(255, 255, 255, .7);
+  border: 1px solid var(--glass-border);
+}
+
+.arxiv-royxat {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.arxiv-royxat li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 6px;
+  border-top: 1px solid rgba(100, 170, 130, .18);
+}
+
+.arxiv-royxat li.bosh-yoq {
+  color: var(--muted);
+  font-size: 14px;
+  justify-content: center;
+  border-top: none;
+}
+
+.arxiv-royxat .guruh-nom {
+  flex: none;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .75);
+  border: 1px solid var(--glass-border);
+  color: #4a58a8;
+}
+
+.arxiv-royxat .matn {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.arxiv-royxat .matn::before {
+  content: "\2714";
+  margin-right: 8px;
+  color: #3dbb73;
+}
+
+.arxiv-royxat .qaytar {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, .65);
+  color: #5468d4;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.arxiv-royxat .qaytar:hover { background: #fff; }
+
+@keyframes kirdi {
+  0%   { opacity: 0; transform: translateY(-18px) scale(.98); background: rgba(120, 220, 160, .75); }
+  60%  { opacity: 1; transform: none; background: rgba(120, 220, 160, .55); }
+  100% { background: transparent; }
+}
+.arxiv-royxat li.yangi { animation: kirdi 1.4s ease-out; border-radius: 12px; }
+
+@media (max-width: 520px) {
+  .wrap { padding: 18px 10px 40px; }
+  .sarlavha { font-size: 24px; }
+  #jadval { font-size: 16px; }
+  #jadval td, #jadval th { padding: 0 6px; height: 44px; }
+  #jadval td.tick { width: 56px; }
+  .belgi { width: 30px; height: 30px; font-size: 15px; }
+  .tugma { padding: 0 16px; font-size: 15px; }
+}
