@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kunlik Reja va Vazifalar (Daily Planner)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="planner-wrapper">
+    <!-- ASOSIY SARLAVHA VA SANA BOSHQARUVI -->
+    <header class="planner-header">
+      <h1 class="planner-title">KUNLIK REJA VA VAZIFALAR</h1>
+      
+      <div class="date-control-panel">
+        <button id="btnPrevDayNav" class="nav-arrow-btn" title="Oldingi kun">&lt;</button>
+        
+        <div class="date-display-box">
+          <span class="date-label">Sana:</span>
+          <span id="currentDateText" class="current-date-text">2026-10-10</span>
+          <input type="date" id="datePickerInput" class="date-picker-input" title="Sana tanlash">
+        </div>
+
+        <button id="btnNextDayNav" class="nav-arrow-btn" title="Keyingi kun">&gt;</button>
+        <button id="btnToday" class="today-badge-btn" title="Bugungi kunga o'tish">Bugun</button>
+      </div>
+
+      <!-- O'tgan kun holati haqida ogohlantirish indikatori -->
+      <div id="pastDayIndicator" class="past-day-badge hidden">
+        <span class="badge-icon">ℹ️</span>
+        <span>O'tgan kun natijalari: Bajarilganlar <strong class="color-green">YASHIL</strong>, bajarilmaganlar <strong class="color-red">QIZIL</strong> rangda.</span>
+      </div>
+    </header>
+
+    <!-- 1. STATISTIKA VA PROGRESS BAR (AI Extra Feature 1) -->
+    <section class="progress-section">
+      <div class="progress-info-row">
+        <span class="progress-title" id="progressTitle">Bugungi bajarilish: 0%</span>
+        <span class="progress-stats-detail" id="progressStatsDetail">0 / 0 ta vazifa</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+      </div>
+    </section>
+
+    <!-- 2. FILTERLASH VA EKSPORT/IMPORT BOSHQARUVI (AI Extra Features 2 & 3) -->
+    <section class="toolbar-section">
+      <!-- Filtr tugmalari -->
+      <div class="filter-group">
+        <span class="toolbar-label">Filtr:</span>
+        <button type="button" class="filter-btn active" data-filter="all">Barchasi</button>
+        <button type="button" class="filter-btn" data-filter="completed">Faqat bajarilganlar</button>
+        <button type="button" class="filter-btn" data-filter="pending">Bajarilmaganlar</button>
+      </div>
+
+      <!-- Zaxiralash (Eksport va Import) -->
+      <div class="backup-group">
+        <button type="button" id="btnExport" class="tool-btn" title="JSON fayl sifatida yuklab olish">
+          <span class="btn-icon">💾</span> Eksport (JSON)
+        </button>
+        <button type="button" id="btnImport" class="tool-btn" title="JSON fayldan qayta yuklash">
+          <span class="btn-icon">📂</span> Import (JSON)
+        </button>
+        <input type="file" id="importFileInput" accept=".json" style="display: none;">
+      </div>
+    </section>
+
+    <!-- KLASSIK QORA-OQ JADVAL TIZIMI -->
+    <main class="table-container">
+      <table class="planner-table" id="plannerTable">
+        <colgroup>
+          <col class="col-section">
+          <col class="col-subtype">
+          <col class="col-index">
+          <col class="col-task">
+          <col class="col-status">
+        </colgroup>
+        <thead>
+          <tr>
+            <th title="Ertalab / Kechqurun">Bo'lim</th>
+            <th title="Menejment / Majburiy yoki Ish / Iroda">Turi</th>
+            <th title="Tartib raqami">№</th>
+            <th class="th-task">Vazifalar ro'yxati (Kunlik reja)</th>
+            <th title="Bajarilganlik holati">Holati</th>
+          </tr>
+        </thead>
+        <tbody id="plannerTableBody">
+          <!-- JavaScript orqali dinamik yaratiladi -->
+        </tbody>
+      </table>
+    </main>
+
+    <!-- ASOSIY 5 TA BOSHQARUV TUGMASI -->
+    <footer class="action-footer">
+      <div class="main-actions-grid">
+        <button type="button" id="btnPrevDay" class="action-btn arrow-btn" title="Oldingi kun (&lt;)">
+          &lt;
+        </button>
+        
+        <button type="button" id="btnConfirm" class="action-btn confirm-btn" title="Bo'sh qatorlarni o'chirish va raqamlarni qayta tartiblash">
+          Tasdiqlash
+        </button>
+        
+        <button type="button" id="btnAddRow" class="action-btn add-btn" title="Har bir bo'limda standart 3 tadan qatorni tiklash / yangi qator qo'shish">
+          +
+        </button>
+        
+        <button type="button" id="btnCompleted" class="action-btn done-btn" title="Belgilangan (check qo'yilgan) vazifalarni arxivlash">
+          Bajarildi
+        </button>
+        
+        <button type="button" id="btnNextDay" class="action-btn arrow-btn" title="Keyingi kun (&gt;)">
+          &gt;
+        </button>
+      </div>
+
+      <!-- Jadval belgilari uchun afsona (Legend / Izoh) -->
+      <div class="legend-box">
+        <div class="legend-item"><strong>E:</strong> Ertalab</div>
+        <div class="legend-item"><strong>K:</strong> Kechqurun</div>
+        <div class="legend-item"><strong>M:</strong> Menejment / Majburiy</div>
+        <div class="legend-item"><strong>I:</strong> Ish / Iroda</div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Bildirishnoma (Toast) komponenti -->
+  <div id="toastMessage" class="toast-notification"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
