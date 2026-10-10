@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kunlik topshiriqlar</title>
+    <link rel="stylesheet" href="B4.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <div>
+                <h1>Kunlik topshiriqlar</h1>
+                <p>Vazifalaringizni boshqaring</p>
+            </div>
+
+            <div class="top-actions">
+                <button id="themeBtn">🌙 Dark</button>
+                <button id="todayBtn">Bugungi kun</button>
+            </div>
+        </header>
+
+        <main class="panel">
+            <div class="datebar">
+                <div class="day-nav">
+                    <button id="prevBtn">‹</button>
+                    <button id="nextBtn">›</button>
+                    <span id="dayTitle"></span>
+                </div>
+
+                <label>
+                    Sana:
+                    <input type="date" id="datePicker">
+                </label>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bo‘lim</th>
+                            <th>Tur</th>
+                            <th>Topshiriq</th>
+                            <th>Holati</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskTable"></tbody>
+                </table>
+            </div>
+
+            <div class="table-actions">
+                <div id="summary"></div>
+
+                <div class="top-actions">
+                    <button id="addBtn">＋ Topshiriq qo‘shish</button>
+                    <button id="saveBtn">Saqlash</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="B4.js"></script>
+</body>
+</html>
