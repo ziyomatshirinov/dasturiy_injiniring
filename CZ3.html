@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CZ3 Chat</title>
+<link rel="stylesheet" href="CZ3.css">
+</head>
+<body>
+
+<!-- KIRISH -->
+<div id="vLogin" class="card">
+  <h1>Kirish</h1>
+  <p class="sub">Akkauntingiz bo'lsa kiring, bo'lmasa ro'yxatdan o'ting</p>
+  <div class="row"><label for="lLogin">Login:</label><input id="lLogin" type="text" autocomplete="off"></div>
+  <div class="row"><label for="lParol">Parol:</label><input id="lParol" type="password" autocomplete="off"></div>
+  <div id="lMsg" class="msg"></div>
+  <div class="btns">
+    <button type="button" class="light" id="goRegister">Ro'yxatdan o'tish</button>
+    <button type="button" id="doLogin">Kirish</button>
+  </div>
+</div>
+
+<!-- RO'YXATDAN O'TISH -->
+<div id="vRegister" class="card hidden">
+  <h1>Ro'yxatdan o'tish</h1>
+  <p class="sub">Yangi akkaunt yarating</p>
+  <div class="row"><label for="rLogin">Login</label><input id="rLogin" type="text" autocomplete="off"></div>
+  <div class="row"><label for="rFam">Familiya</label><input id="rFam" type="text" autocomplete="off"></div>
+  <div class="row"><label for="rIsm">Ism</label><input id="rIsm" type="text" autocomplete="off"></div>
+  <div class="row"><label for="rParol">Parol</label><input id="rParol" type="password" autocomplete="new-password"></div>
+  <div class="row"><label for="rParol2">Parolni tasdiqlash</label><input id="rParol2" type="password" autocomplete="new-password"></div>
+  <div id="rMsg" class="msg"></div>
+  <div class="btns">
+    <button type="button" class="light" id="goLogin">Orqaga</button>
+    <button type="button" id="doRegister">Tasdiqlash</button>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div id="vChat" class="app hidden">
+  <aside class="side">
+    <div class="me"><b id="meName">—</b><span id="meLogin">—</span><div id="aiBadge" class="badge">● Oddiy rejim</div></div>
+    <h3>Loginlar:</h3>
+    <ul id="users"></ul>
+    <button type="button" class="light" id="doLogout">Chiqish</button>
+  </aside>
+  <section class="main">
+    <div class="head"><span id="peerName">—</span><span>siz</span></div>
+    <div id="messages"></div>
+    <div class="send">
+      <input id="msgInput" type="text" placeholder="Xabar yozing..." autocomplete="off">
+      <button type="button" id="doSend">yuborish</button>
+    </div>
+  </section>
+</div>
+
+<script src="CZ3.js"></script>
+</body>
+</html>
