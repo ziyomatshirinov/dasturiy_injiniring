@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jamoaviy Chat Loyihasi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="glass-card register-box">
+        <h2 class="card-title">Ro'yxatdan o'tish</h2>
+        
+        <form onsubmit="return false;">
+            <div class="form-group">
+                <label for="reg-login">Login</label>
+                <input type="text" id="reg-login" placeholder="Loginni kiriting">
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-surname">Familiya</label>
+                <input type="text" id="reg-surname" placeholder="Familiyangizni kiriting">
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-name">Ism</label>
+                <input type="text" id="reg-name" placeholder="Ismingizni kiriting">
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-pass">Parol</label>
+                <input type="password" id="reg-pass" placeholder="Parolni kiriting">
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-pass-confirm">Parolni tasdiqlash</label>
+                <input type="password" id="reg-pass-confirm" placeholder="Parolni qayta kiriting">
+            </div>
+            
+            <div class="btn-group" style="justify-content: center; margin-top: 24px;">
+                <button type="submit" class="btn btn-primary">Tasdiqlash</button>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="glass-card chat-container">
+        
+        <div class="sidebar">
+            <h3>Loginlar:</h3>
+            <ul class="user-list">
+                <li class="user-item active">asss</li>
+                <li class="user-item">vvvvv</li>
+                <li class="user-item">sdsdsd</li>
+                <li class="user-item">sdsdsds</li>
+            </ul>
+        </div>
+        <div class="chat-main">
+            <div class="chat-header">
+                <span class="chat-title">ass</span>
+                <span class="chat-title">siz</span>
+                <button class="btn btn-danger">Chiqish</button>
+            </div>
+
+            <div class="chat-messages">
+                <div class="message-bubble incoming">
+                    Assalomu aleykum
+                </div>
+                <div class="message-bubble outgoing">
+                    Vaaleykum assalom
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <input type="text" placeholder="Xabarni kiriting...">
+                <div class="send-wrapper">
+                    <button class="btn btn-success">yuborish</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="glass-card login-box">
+        <h2 class="card-title">Tizimga kirish</h2>
+        
+        <form onsubmit="return false;">
+            <div class="form-group">
+                <label for="login-username">Login:</label>
+                <input type="text" id="login-username" placeholder="Loginingizni kiriting">
+            </div>
+            
+            <div class="form-group">
+                <label for="login-password">Parol:</label>
+                <input type="password" id="login-password" placeholder="Parolingizni kiriting">
+            </div>
+            
+            <div class="btn-group" style="margin-top: 20px;">
+                <button type="button" class="btn btn-secondary">Ro'yxatdan o'tish</button>
+                <button type="submit" class="btn btn-primary">Kirish</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
