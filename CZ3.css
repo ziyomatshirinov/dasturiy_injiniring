@@ -1,0 +1,59 @@
+:root{--main:#4f46e5;--main2:#7c3aed;--bg:#eef0ff;--text:#1f2340;--line:#d9dcf5;--err:#d92d4a;--ok:#12805c}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;
+  font-family:"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);
+  background:linear-gradient(135deg,#c7d2fe 0%,#e9d5ff 100%)}
+.hidden{display:none!important}
+.card{width:100%;max-width:520px;background:#fff;border-radius:20px;padding:36px 34px;
+  box-shadow:0 20px 50px rgba(79,70,229,.25)}
+.card h1{margin:0 0 6px;font-size:28px;text-align:center}
+.card p.sub{margin:0 0 26px;text-align:center;color:#6b7094;font-size:15px}
+.row{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.row label{width:150px;flex-shrink:0;font-weight:600;font-size:15px}
+.row input{flex:1;min-width:0;height:44px;padding:0 14px;font-size:16px;border:2px solid var(--line);
+  border-radius:12px;outline:none;background:#f8f9ff;transition:.2s}
+.row input:focus{border-color:var(--main);background:#fff;box-shadow:0 0 0 4px rgba(79,70,229,.12)}
+.btns{display:flex;gap:12px;margin-top:8px}
+.btns button{flex:1}
+button{height:46px;padding:0 20px;font-size:16px;font-weight:600;border:none;border-radius:12px;cursor:pointer;
+  color:#fff;background:linear-gradient(135deg,var(--main),var(--main2));transition:.2s}
+button:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(79,70,229,.35)}
+button.light{background:#eef0ff;color:var(--main)}
+button.light:hover{box-shadow:none;background:#e0e4ff}
+.msg{min-height:22px;margin:4px 0 8px;text-align:center;font-size:14.5px;font-weight:600;color:var(--err)}
+.msg.ok{color:var(--ok)}
+
+/* CHAT */
+.app{width:100%;max-width:1000px;height:88vh;display:flex;background:#fff;border-radius:20px;overflow:hidden;
+  box-shadow:0 20px 50px rgba(79,70,229,.25)}
+.side{width:300px;flex-shrink:0;border-right:2px solid var(--line);display:flex;flex-direction:column;background:#f8f9ff}
+.side .me{padding:18px 20px;background:linear-gradient(135deg,var(--main),var(--main2));color:#fff}
+.side .me b{display:block;font-size:17px}
+.side .me span{font-size:13px;opacity:.85}
+.badge{display:inline-block;margin-top:8px;font-size:12px;background:rgba(255,255,255,.22);padding:3px 10px;border-radius:12px}
+.side h3{margin:16px 20px 8px;font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:#6b7094}
+#users{list-style:none;margin:0;padding:0 10px;flex:1;overflow-y:auto}
+#users li{display:flex;align-items:center;gap:12px;padding:11px 12px;margin-bottom:4px;border-radius:12px;cursor:pointer;font-weight:600}
+#users li:hover{background:#e6e9ff}
+#users li.active{background:var(--main);color:#fff}
+.ava{width:36px;height:36px;border-radius:50%;background:#c7d2fe;color:var(--main);display:flex;
+  align-items:center;justify-content:center;font-weight:700;flex-shrink:0;text-transform:uppercase}
+li.active .ava{background:#fff}
+.side button{margin:12px 14px}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.head{display:flex;justify-content:space-between;padding:16px 24px;border-bottom:2px solid var(--line);font-weight:700}
+.head span:last-child{color:var(--main)}
+#messages{flex:1;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:10px;background:#fbfbff}
+.empty{margin:auto;color:#8b90b3;text-align:center}
+.bubble{max-width:72%;padding:10px 15px;border-radius:18px;font-size:16px;word-wrap:break-word}
+.bubble small{display:block;margin-top:3px;font-size:11.5px;opacity:.7}
+.bubble.me{align-self:flex-end;background:linear-gradient(135deg,var(--main),var(--main2));color:#fff;border-bottom-right-radius:4px}
+.bubble.other{align-self:flex-start;background:#e8ebff;border-bottom-left-radius:4px}
+.send{display:flex;gap:10px;padding:14px 20px;border-top:2px solid var(--line)}
+.send input{flex:1;height:46px;padding:0 16px;font-size:16px;border:2px solid var(--line);border-radius:23px;outline:none}
+.send input:focus{border-color:var(--main)}
+.send button{border-radius:23px}
+@media(max-width:700px){
+  .row{flex-direction:column;align-items:stretch;gap:6px}.row label{width:auto}
+  .app{flex-direction:column;height:94vh}.side{width:100%;max-height:34%;border-right:none;border-bottom:2px solid var(--line)}
+}
