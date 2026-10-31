@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kun tartibi jadvali</title>
+  <style>
+:root {
+  --bg: #EEF2F7;
+  --navy: #203864;
+  --blue: #4472C4;
+  --green: #238653;
+  --red: #C0392B;
+  --white: #FFFFFF;
+  --gray: #667085;
+  --line: #AAB4C3;
+  --tint: #DCE6F1;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: #1f2937;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Sarlavha ---------- */
+.header {
+  background: var(--navy);
+  color: var(--white);
+  text-align: center;
+  padding: 14px 16px 12px;
+}
+.header h1 { margin: 0; font-size: 1.9rem; letter-spacing: 0.04em; }
+.header p  { margin: 4px 0 0; font-size: 0.85rem; color: var(--tint); }
+
+/* ---------- Asosiy qism ---------- */
+.app { max-width: 1100px; margin: 0 auto; padding: 14px 18px 28px; }
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.toolbar label { font-weight: bold; }
+.spacer { flex: 1; }
+
+.date-wrap { position: relative; display: flex; align-items: center; gap: 8px; }
+.date-input {
+  width: 130px;
+  padding: 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.btn {
+  border: 0;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--white);
+}
+.btn-blue  { background: var(--blue); }
+.btn-green { background: var(--green); }
+.btn-light { background: var(--white); color: var(--navy); border: 1px solid var(--line); }
+.btn:hover { filter: brightness(0.93); }
+
+:where(button, input):focus-visible {
+  outline: 3px solid #F5B301;
+  outline-offset: 1px;
+}
+
+.status { font-size: 0.85rem; font-weight: bold; color: var(--blue); }
+.status.confirmed { color: var(--green); }
+.status.error     { color: var(--red); }
+
+.progress-box { min-width: 150px; font-size: 0.85rem; color: var(--gray); }
+.bar { height: 6px; background: #D5DCE8; border-radius: 3px; margin-top: 4px; overflow: hidden; }
+.bar-fill { height: 100%; width: 0; background: var(--green); transition: width 0.2s; }
+
+/* ---------- Jadval ---------- */
+.table-wrap { overflow-x: auto; }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+}
+.table th, .table td { border: 1px solid var(--line); padding: 0; }
+.table thead th {
+  background: var(--navy);
+  color: var(--white);
+  padding: 9px 10px;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.section-name {
+  width: 190px;
+  background: var(--tint);
+  color: var(--navy);
+  padding: 10px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+
+.task-input {
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  font-size: 1rem;
+  background: transparent;
+}
+.task-input:disabled { color: #374151; }
+.row-done .task-input { text-decoration: line-through; color: var(--gray); }
+
+.check-cell { width: 96px; text-align: center; }
+.check-cell input { width: 20px; height: 20px; accent-color: var(--green); cursor: pointer; }
+
+.remove-cell { width: 44px; text-align: center; }
+.remove-btn {
+  border: 0;
+  background: transparent;
+  color: var(--gray);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 6px 10px;
+}
+.remove-btn:hover:not(:disabled) { color: var(--red); }
+.remove-btn:disabled { opacity: 0.3; cursor: default; }
+
+.add-cell { padding: 4px 8px; background: #F8FAFC; }
+.add-btn {
+  border: 0;
+  background: transparent;
+  color: var(--blue);
+  font-size: 0.88rem;
+  cursor: pointer;
+  padding: 6px 4px;
+}
+.add-btn:hover { text-decoration: underline; }
+
+.note { margin: 12px 2px 0; font-size: 0.8rem; color: var(--gray); max-width: 70ch; }
+
+/* ---------- Kalendar ---------- */
+.calendar {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 10;
+  width: 290px;
+  padding: 10px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(32, 56, 100, 0.18);
+}
+.calendar[hidden] { display: none; }
+
+.cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: var(--navy);
+}
+.cal-nav {
+  border: 0;
+  background: var(--tint);
+  color: var(--navy);
+  width: 30px; height: 30px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.cal-wd { text-align: center; font-size: 0.75rem; font-weight: bold; color: var(--gray); padding: 4px 0; }
+.cal-day {
+  border: 0;
+  background: transparent;
+  height: 34px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  position: relative;
+}
+.cal-day:hover { background: var(--tint); }
+.cal-day.today { outline: 1px solid var(--blue); }
+.cal-day.has-data::after {
+  content: "";
+  position: absolute;
+  bottom: 4px; left: 50%;
+  width: 5px; height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.cal-day.selected { background: var(--blue); color: var(--white); }
+.cal-day.selected.has-data::after { background: var(--white); }
+
+/* ---------- Mobil ---------- */
+@media (max-width: 640px) {
+  .app { padding: 10px; }
+  .section-name { width: 96px; font-size: 0.82rem; padding: 6px; }
+  .check-cell { width: 64px; }
+  .progress-box { order: 5; flex-basis: 100%; }
+  .spacer { display: none; }
+}
+</style>
+</head>
+<body>
+  <header class="header">
+    <h1>KUN TARTIBI</h1>
+    <p>Ertalabki va kechki vazifalar jadvali</p>
+  </header>
+
+  <main class="app">
+    <div class="toolbar">
+      <label for="dateInput">Sana:</label>
+
+      <div class="date-wrap">
+        <input id="dateInput" class="date-input" type="text" inputmode="numeric"
+               placeholder="YYYY-MM-DD" maxlength="10" autocomplete="off">
+        <button id="calendarBtn" class="btn btn-blue" type="button"
+                aria-haspopup="dialog" aria-expanded="false">📅 Kalendar</button>
+
+        <div id="calendar" class="calendar" role="dialog" aria-label="Kalendar" hidden>
+          <div class="cal-head">
+            <button id="prevMonth" class="cal-nav" type="button" aria-label="Oldingi oy">‹</button>
+            <strong id="calTitle"></strong>
+            <button id="nextMonth" class="cal-nav" type="button" aria-label="Keyingi oy">›</button>
+          </div>
+          <div id="calGrid" class="cal-grid"></div>
+        </div>
+      </div>
+
+      <button id="todayBtn" class="btn btn-light" type="button">Bugun</button>
+      <span id="statusLabel" class="status" role="status">Yangi jadval</span>
+
+      <div class="spacer"></div>
+
+      <div class="progress-box">
+        <span id="progressText">Bajarildi: 0 / 0</span>
+        <div class="bar"><div id="progressFill" class="bar-fill"></div></div>
+      </div>
+      <button id="confirmBtn" class="btn btn-green" type="button">Tasdiqlash</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Bo'lim</th>
+            <th scope="col">Vazifa</th>
+            <th scope="col">Bajarildi</th>
+            <th scope="col"><span class="sr-only">O'chirish</span></th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <p class="note">Ma'lumotlar shu brauzerda avtomatik saqlanadi. Tasdiqlangan kunda matnni o'zgartirib bo'lmaydi, lekin vazifani bajarilgan deb belgilash mumkin.</p>
+  </main>
+
+  <script>
+"use strict";
+
+// ==================================================
+// 1. SOZLAMALAR
+// ==================================================
+
+const STORAGE_KEY = "kun_tartibi";
+
+const SECTION_NAMES = [
+  "Ertalabki - Majburiy",
+  "Ertalabki - Ixtiyoriy",
+  "Kechki - Majburiy",
+  "Kechki - Ixtiyoriy",
+];
+
+const MONTHS_UZ = [
+  "Yanvar", "Fevral", "Mart", "Aprel",
+  "May", "Iyun", "Iyul", "Avgust",
+  "Sentabr", "Oktabr", "Noyabr", "Dekabr",
+];
+
+const WEEKDAYS_UZ = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"];
+
+// daysData = { "2026-10-31": { sections: {...}, confirmed: false }, ... }
+let daysData = {};
+let currentDate = todayISO();
+let day = emptyDay();
+let calYear = 0;
+let calMonth = 0;
+let statusTimer = null;
+
+const $ = (id) => document.getElementById(id);
+const dateInput    = $("dateInput");
+const calendarBtn  = $("calendarBtn");
+const calendarEl   = $("calendar");
+const calTitle     = $("calTitle");
+const calGrid      = $("calGrid");
+const todayBtn     = $("todayBtn");
+const statusLabel  = $("statusLabel");
+const confirmBtn   = $("confirmBtn");
+const tableBody    = $("tableBody");
+const progressText = $("progressText");
+const progressFill = $("progressFill");
+
+
+// ==================================================
+// 2. SANA YORDAMCHILARI
+// ==================================================
+
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
+
+function toISO(year, month, dayNum) {
+  return `${year}-${pad(month + 1)}-${pad(dayNum)}`;
+}
+
+function todayISO() {
+  const t = new Date();
+  return toISO(t.getFullYear(), t.getMonth(), t.getDate());
+}
+
+function isValidISO(text) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(text)) return false;
+  const [y, m, d] = text.split("-").map(Number);
+  const dt = new Date(y, m - 1, d);
+  return dt.getFullYear() === y && dt.getMonth() === m - 1 && dt.getDate() === d;
+}
+
+
+// ==================================================
+// 3. MA'LUMOT TUZILMASI VA SAQLASH
+// ==================================================
+
+function newSections() {
+  const result = {};
+  SECTION_NAMES.forEach((name) => {
+    result[name] = Array.from({ length: 3 }, () => ({ text: "", done: false }));
+  });
+  return result;
+}
+
+function emptyDay() {
+  return { sections: newSections(), confirmed: false };
+}
+
+function normalizeDay(saved) {
+  const result = emptyDay();
+  if (!saved || typeof saved !== "object") return result;
+
+  const src = saved.sections && typeof saved.sections === "object" ? saved.sections : {};
+
+  SECTION_NAMES.forEach((name) => {
+    const rows = Array.isArray(src[name]) ? src[name] : [];
+    const clean = rows
+      .filter((r) => r && typeof r === "object")
+      .map((r) => ({ text: String(r.text ?? ""), done: Boolean(r.done) }));
+    if (clean.length > 0) result.sections[name] = clean;
+  });
+
+  result.confirmed = Boolean(saved.confirmed);
+  return result;
+}
+
+function loadAll() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    daysData = parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+  } catch {
+    daysData = {};
+  }
+}
+
+function saveAll() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(daysData));
+    return true;
+  } catch {
+    showStatus("Saqlab bo'lmadi: brauzer xotirasi yopiq", "error", 4000);
+    return false;
+  }
+}
+
+function hasContent(d) {
+  return d.confirmed || SECTION_NAMES.some((name) =>
+    d.sections[name].some((r) => r.text.trim() !== "" || r.done)
+  );
+}
+
+function persistDay() {
+  if (hasContent(day)) {
+    daysData[currentDate] = day;
+  } else {
+    delete daysData[currentDate];
+  }
+  if (saveAll()) updateStatus();
+  updateProgress();
+}
+
+
+// ==================================================
+// 4. HOLAT VA PROGRESS
+// ==================================================
+
+function updateStatus() {
+  const saved = daysData[currentDate];
+  let text = "Yangi jadval";
+  let cls = "";
+
+  if (saved) {
+    if (day.confirmed) {
+      text = "Tasdiqlangan";
+      cls = "confirmed";
+    } else {
+      text = "Saqlangan";
+    }
+  }
+
+  statusLabel.textContent = text;
+  statusLabel.className = "status " + cls;
+  confirmBtn.textContent = day.confirmed ? "Tahrirlashni yoqish" : "Tasdiqlash";
+}
+
+function showStatus(text, cls, ms) {
+  clearTimeout(statusTimer);
+  statusLabel.textContent = text;
+  statusLabel.className = "status " + cls;
+  statusTimer = setTimeout(updateStatus, ms);
+}
+
+function updateProgress() {
+  let total = 0;
+  let done = 0;
+
+  SECTION_NAMES.forEach((name) => {
+    day.sections[name].forEach((r) => {
+      if (r.text.trim() !== "") {
+        total += 1;
+        if (r.done) done += 1;
+      }
+    });
+  });
+
+  progressText.textContent = `Bajarildi: ${done} / ${total}`;
+  progressFill.style.width = total === 0 ? "0%" : `${Math.round((done / total) * 100)}%`;
+}
+
+
+// ==================================================
+// 5. JADVALNI CHIZISH
+// ==================================================
+
+function render() {
+  tableBody.innerHTML = "";
+
+  SECTION_NAMES.forEach((name, sIndex) => {
+    const rows = day.sections[name];
+
+    rows.forEach((row, i) => {
+      const tr = document.createElement("tr");
+      if (row.done) tr.classList.add("row-done");
+
+      // Bo'lim nomi (rowspan)
+      if (i === 0) {
+        const th = document.createElement("th");
+        th.scope = "rowgroup";
+        th.className = "section-name";
+        th.rowSpan = rows.length + (day.confirmed ? 0 : 1);
+        th.textContent = name;
+        tr.appendChild(th);
+      }
+
+      // Vazifa matni
+      const tdText = document.createElement("td");
+      const input = document.createElement("input");
+      input.type = "text";
+      input.className = "task-input";
+      input.placeholder = "Vazifa yozing...";
+      input.value = row.text;
+      input.disabled = day.confirmed;
+      input.dataset.key = `${sIndex}-${i}`;
+      input.setAttribute("aria-label", `${name}, ${i + 1}-vazifa`);
+      input.addEventListener("input", () => {
+        row.text = input.value;
+        persistDay();
+      });
+      tdText.appendChild(input);
+      tr.appendChild(tdText);
+
+      // Bajarildi
+      const tdCheck = document.createElement("td");
+      tdCheck.className = "check-cell";
+      const check = document.createElement("input");
+      check.type = "checkbox";
+      check.checked = row.done;
+      check.setAttribute("aria-label", `${name}, ${i + 1}-vazifa bajarildi`);
+      check.addEventListener("change", () => {
+        row.done = check.checked;
+        tr.classList.toggle("row-done", row.done);
+        persistDay();
+      });
+      tdCheck.appendChild(check);
+      tr.appendChild(tdCheck);
+
+      // O'chirish
+      const tdRemove = document.createElement("td");
+      tdRemove.className = "remove-cell";
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "remove-btn";
+      remove.textContent = "×";
+      remove.title = "Qatorni o'chirish";
+      remove.setAttribute("aria-label", `${name}, ${i + 1}-qatorni o'chirish`);
+      remove.disabled = day.confirmed || rows.length === 1;
+      remove.addEventListener("click", () => {
+        rows.splice(i, 1);
+        persistDay();
+        render();
+      });
+      tdRemove.appendChild(remove);
+      tr.appendChild(tdRemove);
+
+      tableBody.appendChild(tr);
+    });
+
+    // "Qator qo'shish"
+    if (!day.confirmed) {
+      const trAdd = document.createElement("tr");
+      const tdAdd = document.createElement("td");
+      tdAdd.colSpan = 3;
+      tdAdd.className = "add-cell";
+      const add = document.createElement("button");
+      add.type = "button";
+      add.className = "add-btn";
+      add.textContent = "+ Qator qo'shish";
+      add.addEventListener("click", () => {
+        rows.push({ text: "", done: false });
+        render();
+        const next = tableBody.querySelector(`[data-key="${sIndex}-${rows.length - 1}"]`);
+        if (next) next.focus();
+      });
+      tdAdd.appendChild(add);
+      trAdd.appendChild(tdAdd);
+      tableBody.appendChild(trAdd);
+    }
+  });
+}
+
+
+// ==================================================
+// 6. SANANI ALMASHTIRISH
+// ==================================================
+
+function goToDate(iso) {
+  if (!isValidISO(iso)) {
+    dateInput.value = currentDate;
+    showStatus("Sana noto'g'ri. Format: YYYY-MM-DD", "error", 3000);
+    return;
+  }
+
+  currentDate = iso;
+  day = normalizeDay(daysData[iso]);
+  dateInput.value = iso;
+
+  render();
+  updateStatus();
+  updateProgress();
+}
+
+dateInput.addEventListener("change", () => goToDate(dateInput.value.trim()));
+dateInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") goToDate(dateInput.value.trim());
+});
+todayBtn.addEventListener("click", () => goToDate(todayISO()));
+
+confirmBtn.addEventListener("click", () => {
+  if (day.confirmed) {
+    day.confirmed = false;
+  } else {
+    // Tasdiqlashda bo'sh qatorlar olib tashlanadi (kamida bittasi qoladi)
+    SECTION_NAMES.forEach((name) => {
+      const filled = day.sections[name].filter((r) => r.text.trim() !== "");
+      day.sections[name] = filled.length > 0 ? filled : [{ text: "", done: false }];
+    });
+    day.confirmed = true;
+  }
+  persistDay();
+  render();
+});
+
+
+// ==================================================
+// 7. KALENDAR
+// ==================================================
+
+function openCalendar() {
+  const [y, m] = currentDate.split("-").map(Number);
+  calYear = y;
+  calMonth = m - 1;
+  renderCalendar();
+  calendarEl.hidden = false;
+  calendarBtn.setAttribute("aria-expanded", "true");
+}
+
+function closeCalendar() {
+  calendarEl.hidden = true;
+  calendarBtn.setAttribute("aria-expanded", "false");
+}
+
+function renderCalendar() {
+  calTitle.textContent = `${MONTHS_UZ[calMonth]} ${calYear}`;
+  calGrid.innerHTML = "";
+
+  WEEKDAYS_UZ.forEach((w) => {
+    const el = document.createElement("div");
+    el.className = "cal-wd";
+    el.textContent = w;
+    calGrid.appendChild(el);
+  });
+
+  const offset = (new Date(calYear, calMonth, 1).getDay() + 6) % 7;   // hafta Dushanbadan boshlanadi
+  const total = new Date(calYear, calMonth + 1, 0).getDate();
+  const today = todayISO();
+
+  for (let i = 0; i < offset; i++) {
+    calGrid.appendChild(document.createElement("div"));
+  }
+
+  for (let d = 1; d <= total; d++) {
+    const iso = toISO(calYear, calMonth, d);
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "cal-day";
+    btn.textContent = d;
+    if (iso === today) btn.classList.add("today");
+    if (iso === currentDate) btn.classList.add("selected");
+    if (daysData[iso]) btn.classList.add("has-data");
+    btn.addEventListener("click", () => {
+      goToDate(iso);
+      closeCalendar();
+    });
+    calGrid.appendChild(btn);
+  }
+}
+
+function shiftMonth(delta) {
+  calMonth += delta;
+  if (calMonth < 0)  { calMonth = 11; calYear -= 1; }
+  if (calMonth > 11) { calMonth = 0;  calYear += 1; }
+  renderCalendar();
+}
+
+calendarBtn.addEventListener("click", () => {
+  if (calendarEl.hidden) openCalendar();
+  else closeCalendar();
+});
+$("prevMonth").addEventListener("click", () => shiftMonth(-1));
+$("nextMonth").addEventListener("click", () => shiftMonth(1));
+
+document.addEventListener("click", (e) => {
+  if (!calendarEl.hidden && !calendarEl.contains(e.target) && e.target !== calendarBtn) {
+    closeCalendar();
+  }
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !calendarEl.hidden) {
+    closeCalendar();
+    calendarBtn.focus();
+  }
+});
+
+
+// ==================================================
+// 8. ISHGA TUSHIRISH
+// ==================================================
+
+loadAll();
+goToDate(currentDate);
+</script>
+</body>
+</html>
